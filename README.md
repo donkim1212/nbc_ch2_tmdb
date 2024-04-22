@@ -8,7 +8,7 @@
 https://teamsparta.notion.site/JavaScript-8a862ce7b0e84867b610f83405014115
 
 ## Wireframe
-![wireframe](https://github.com/donkim1212/nbc_ch2_tmdb/assets/32076275/868c48ae-022c-44e2-9f3c-02769e02d89f)
+![wireframe](https://github.com/donkim1212/nbc_ch2_tmdb/assets/32076275/1f12b0c6-a6f5-42c5-881e-93f0c99b9df5)
 
 ## 구현한 것
 1. 상기한 과제 spec 내의 'flex와 grid 사용하기' 외 모든 과제(선택 포함)를 완수했습니다.
