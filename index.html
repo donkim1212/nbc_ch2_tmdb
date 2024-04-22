@@ -5,7 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/mystyle.css">
-    <script src="js/search-movie.js"></script>
+    <!-- <script src="js/search-movie.js"></script> -->
+    <script type="module">
+        import { moviesList } from "./js/fetch-movies-db.js";
+        import { searchMoviesByTitle } from "./js/search-movie.js";
+
+        const searchButton = document.getElementById("search-btn-01");
+        const searchBar = document.getElementById("search-bar-01");
+        searchButton.addEventListener("click", function() {
+            let searched = searchBar.value;
+            console.log(searched);
+            searchMoviesByTitle(searched, moviesList);
+        });
+    </script>
 </head>
 <body>
     <div class="wrapper">
@@ -13,7 +25,10 @@
 
         </div>
         <div class="search-container">
-            
+            <input id="search-bar-01" type="text">
+            <button id="search-btn-01">
+                <label>Search</label>
+            </button>
         </div>
         <div class="poster-container">
             
