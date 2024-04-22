@@ -1,4 +1,4 @@
-console.log("search-movie.js loaded");
+// console.log("search-movie.js loaded");
 import { addCard, emptyCards } from "./card.js";
 import { moviesList } from "./fetch-movies-db.js";
 

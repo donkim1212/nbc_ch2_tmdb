@@ -18,7 +18,7 @@ const getLocalList = async () => {
         .then(res => res.json())
         .then(data => {
             temp = data;
-            console.log("Local list retrieved.");
+            // console.log("Local list retrieved.");
         })
         .catch(err => console.log(err));
     return temp;
@@ -34,13 +34,13 @@ const getTopRatedMoviesList = async (isLocal) => {
         .then(res => res.json())
         .then(data => {
             list = data;
-            console.log("TMDB list retrieved.");
+            // console.log("TMDB list retrieved.");
         })
         .catch(err => {
             console.error(err);
         });
-    console.log("topRatedMoviesList:");
-    console.log(list);
+    // console.log("topRatedMoviesList:");
+    // console.log(list);
     return list;
 }
 
