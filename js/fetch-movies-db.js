@@ -1,4 +1,4 @@
-let isLocal = true; // change this value to false to load data from TMDB
+let isLocal = false; // change this value to false to load data from TMDB
 
 const options = {
     method: 'GET',
