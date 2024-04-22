@@ -5,17 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/mystyle.css">
-    <script src="js/search-movie.js"></script>
+    <!-- <script src="js/search-movie.js"></script> -->
+    <script type="module">
+        import { searchMoviesByTitle } from "./js/search-movie.js";
+        import { setCardContainer, getCardContainer } from "./js/card.js";
+
+        setCardContainer(document.getElementById("card-container-01"));
+        searchMoviesByTitle(""); // load all movies list
+
+        const searchButton = document.getElementById("search-btn-01");
+        const searchBar = document.getElementById("search-bar-01");
+        searchBar.focus();
+
+        searchBar.addEventListener("keypress", function() {
+            if (window.event.keyCode == 13) {
+                search();
+            }
+        });
+
+        searchButton.addEventListener("click", function() {
+            search();
+        });
+
+        function search() {
+            let searched = searchBar.value;
+            searchMoviesByTitle(searched);
+        }
+    </script>
 </head>
 <body>
     <div class="wrapper">
         <div class="banner-container">
-
+            <H1>TMDB 선정 최고의 영화 20선</H1>
         </div>
         <div class="search-container">
-            
+            <div class="search-bar-container">
+                <input id="search-bar-01" type="text" placeholder="여기에 제목을 입력하세요.">
+                <button id="search-btn-01">
+                    <label>검색</label>
+                </button>
+            </div>
         </div>
-        <div class="poster-container">
+        <div class="poster-container" id="card-container-01">
             
         </div>
     </div>
