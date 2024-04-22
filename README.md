@@ -11,7 +11,7 @@ https://teamsparta.notion.site/JavaScript-8a862ce7b0e84867b610f83405014115
 ![wireframe](https://github.com/donkim1212/nbc_ch2_tmdb/assets/32076275/1f12b0c6-a6f5-42c5-881e-93f0c99b9df5)
 
 ## 구현한 것
-1. 상기한 과제 spec 내의 'flex와 grid 사용하기' 외 모든 과제(선택 포함)를 완수했습니다.
+1. 상기한 과제 spec 내의 'grid 사용하기' 외 모든 과제(선택 포함)를 완수했습니다.
 2. 추가로 포스터 목록을 미니프로젝트1 때와 마찬가지로 포토카드 형식으로 보이도록 만들었습니다.
  - 다만, 지난번과는 다르게 mousemove와 mouseleave 이벤트는 사용하지 않았습니다.
  - 카드의 앞면(영화 포스터)과 뒷면(영화 제목, Overview, 별점)을 추가하고 css의 hover를 이용해서
