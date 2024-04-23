@@ -1,7 +1,7 @@
 # 개인 과제) 영화 검색 사이트
 ## [https://donkim1212.github.io/nbc_ch2_tmdb/](https://donkim1212.github.io/nbc_ch2_tmdb/)
 
-![preview](https://github.com/donkim1212/nbc_ch2_tmdb/assets/32076275/8d4e0d3b-3547-4589-8ed2-588ecc20e15f)
+![preview](https://github.com/donkim1212/nbc_ch2_tmdb/assets/32076275/26104eea-3e08-4b56-8163-84c726c4d1dc)
 ## 개요
 순수 Javascript와 HTML만을 사용하여 검색 바를 구현하고, 검색한 영화를
 오픈 API인 TMDB(The Movie DB)에서 찾아내고 정보를 받아 임의의 형식으로
