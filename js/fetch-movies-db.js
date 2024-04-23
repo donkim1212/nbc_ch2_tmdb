@@ -1,5 +1,8 @@
 let isLocal = false; // change this value to false to load data from TMDB
 
+const URL = 'https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1';
+const LOCAL_FILE = './temp.json';
+
 const options = {
     method: 'GET',
     headers: {
@@ -9,41 +12,33 @@ const options = {
 };
 
 /**
- * 
- * @returns movies list from local file temp.json
- */
-const getLocalList = async () => {
-    let temp = {};
-    await fetch("./temp.json")
-        .then(res => res.json())
-        .then(data => {
-            temp = data;
-            // console.log("Local list retrieved.");
-        })
-        .catch(err => console.log(err));
-    return temp;
-}
-
-/**
  * @param 
  * @returns list of movies from TMDB, or from local file if TMDB is not available.
  */
 const getTopRatedMoviesList = async (isLocal) => {
-    let list = (isLocal) ? { results:await getLocalList() } : {};
-    if (!isLocal) await fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', options)
+    let list = {};
+    await fetch(isLocal? LOCAL_FILE : URL, options)
         .then(res => res.json())
         .then(data => {
-            list = data;
+            list = data['results'] || data;
             // console.log("TMDB list retrieved.");
         })
         .catch(err => {
             console.error(err);
         });
-    // console.log("topRatedMoviesList:");
-    // console.log(list);
+    console.log((isLocal? "Local " : "TMDB ") + "topRatedMoviesList:");
+    console.log(list);
     return list;
 }
 
-const moviesList = (await getTopRatedMoviesList(isLocal))["results"];
+const moviesList = (await getTopRatedMoviesList(isLocal));
 
-export { moviesList };
+const setIsLocal = (bool) => {
+    isLocal = bool;
+}
+
+const getIsLocal = () => {
+    isLocal;
+}
+
+export { moviesList, setIsLocal, getIsLocal };
