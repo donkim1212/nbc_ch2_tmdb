@@ -18,9 +18,9 @@ const options = {
  */
 const fetchTopRatedMoviesList = async (isLocal) => {
     try{
-        let data = (await (await fetch(isLocal? LOCAL_FILE : URL, options)).json())["results"];
+        let data = await (await fetch(isLocal? LOCAL_FILE : URL, options)).json();
         console.log(data);
-        return data;
+        return data["results"];
     } catch (err) {
         console.log(err);
     }
