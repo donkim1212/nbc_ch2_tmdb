@@ -23,14 +23,14 @@ const searchMoviesByTitle = async (title) => {
 const setCachedMoviesList = async (isLocal) => {
     if (!cachedList) {
         cachedList = await fetchMoviesList(isLocal);
-        console.log("cached new list from " + (isLocal ? "local json." : "TMDB."));
+        // console.log("cached new list from " + (isLocal ? "local json." : "TMDB."));
     }
-    console.log("cached list already exists.");
+    // console.log("cached list already exists.");
 }
 
 const clearCachedList = () => {
     cachedList = null;
-    console.log("cleared cachedList");
+    // console.log("cleared cachedList");
 }
 
 export { searchMoviesByTitle, setCachedMoviesList, clearCachedList };

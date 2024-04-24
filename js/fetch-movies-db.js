@@ -13,13 +13,13 @@ const options = {
 
 /**
  * 
- * @param {boolean} isLocal true if local, false otherwise
- * @returns list of top rated movies from TMDB, or from local file.
+ * @param {boolean} isLocal true uses local, false uses TMDB list
+ * @returns list of top rated movies from retrieved data.
  */
 const fetchTopRatedMoviesList = async (isLocal) => {
     try{
         let data = await (await fetch(isLocal? LOCAL_FILE : URL, options)).json();
-        console.log(data);
+        // console.log(data);
         return data["results"];
     } catch (err) {
         console.log(err);
