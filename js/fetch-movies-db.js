@@ -16,28 +16,13 @@ const options = {
  * @param {boolean} isLocal true uses local, false uses TMDB list
  * @returns list of top rated movies from retrieved data.
  */
-const fetchTopRatedMoviesList = async (isLocal) => {
+const fetchMoviesList = async (isLocal) => {
     try{
         let data = await (await fetch(isLocal? LOCAL_FILE : URL, options)).json();
         // console.log(data);
         return data["results"];
     } catch (err) {
         console.log(err);
-    }
-}
-
-/**
- * 
- * @param {*} isLocal 
- * @param {*} method 
- * @returns 
- */
-const fetchMoviesList = async (isLocal, method) => {
-    switch (method) {
-        default:
-            return await fetchTopRatedMoviesList(isLocal);
-        case "top-rated":
-            return await fetchTopRatedMoviesList(isLocal);
     }
 }
 
