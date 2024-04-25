@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="css/mystyle.css">
     <!-- <script src="js/search-movie.js"></script> -->
     <script type="module">
-        import { searchMoviesByTitle } from "./js/search-movie.js";
+        import { searchMoviesByTitle, clearCachedList } from "./js/search-movie.js";
         import { setCardContainer, getCardContainer } from "./js/card.js";
 
+        setInterval(clearCachedList, 60000 );
         setCardContainer(document.getElementById("card-container-01"));
         searchMoviesByTitle(""); // load all movies list
 

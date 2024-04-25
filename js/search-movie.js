@@ -24,8 +24,9 @@ const setCachedMoviesList = async (isLocal) => {
     if (!cachedList) {
         cachedList = await fetchMoviesList(isLocal);
         // console.log("cached new list from " + (isLocal ? "local json." : "TMDB."));
+        return;
     }
-    // console.log("cached list already exists.");
+    // console.log("Loading cached list");
 }
 
 const clearCachedList = () => {
