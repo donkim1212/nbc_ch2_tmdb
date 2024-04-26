@@ -5,6 +5,7 @@ import { fetchMoviesList } from "./fetch-movies-db.js";
 let cachedList = null;
 
 const searchMoviesByTitle = async (title) => {
+    title = title.toLowerCase();
     await setCachedMoviesList(false);
     let filteredList = cachedList?.filter(function (data) {
         return data["title"].toLowerCase().includes(title);
@@ -12,7 +13,6 @@ const searchMoviesByTitle = async (title) => {
     if (!filteredList) return;
 
     emptyCards();
-    title = title.toLowerCase();
 
     filteredList.forEach(data => {
         let imageURL = "https://image.tmdb.org/t/p/w300" + data["poster_path"];
