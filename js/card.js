@@ -10,10 +10,10 @@ const getCardContainer = () => {
 
 const createCard = (image, title, overview, rating, id) => {
     return `
-        <div class="cardholder" onclick="alert('영화 id: ${id}')">
+        <div class="cardholder">
             <div class="card">
-                <div class="card-front" style="background-image:url(${image})">
-                    
+                <div class="card-front">
+                    <img src="${image}"/>
                 </div>
                 <div class="card-back">
                     <h1>${title}</h1>
@@ -29,6 +29,10 @@ const addCard = (image, title, overview, rating, id) => {
     if (cardContainer) {
         let card = createCard(image, title, overview, rating, id);
         cardContainer.insertAdjacentHTML('beforeend', card);
+        const cardholder = cardContainer.lastElementChild;
+        cardholder.addEventListener("click", (e) => {
+            alert(`영화 id: ${id}`);
+        });
     }
 }
 

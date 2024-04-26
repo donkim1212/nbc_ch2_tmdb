@@ -113,6 +113,7 @@ body {
 
 .card-front {
     color:white;
+    overflow: hidden;
 }
 
 .card-back {
