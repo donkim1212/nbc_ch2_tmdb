@@ -2,12 +2,11 @@
 import { addCard, emptyCards } from "./card.js";
 import { fetchMoviesList } from "./fetch-movies-db.js";
 
-let cachedList = null;
-
 const searchMoviesByTitle = async (title) => {
     title = title.toLowerCase();
     await setCachedMoviesList(false);
-    let filteredList = cachedList?.filter(function (data) {
+
+    let filteredList = JSON.parse(sessionStorage.getItem("cachedList"))?.filter(function (data) {
         return data["title"].toLowerCase().includes(title);
     });
     if (!filteredList) return;
@@ -21,8 +20,8 @@ const searchMoviesByTitle = async (title) => {
 }
 
 const setCachedMoviesList = async (isLocal) => {
-    if (!cachedList) {
-        cachedList = await fetchMoviesList(isLocal);
+    if (!window.sessionStorage.getItem("cachedList")) {
+        window.sessionStorage.setItem("cachedList", JSON.stringify(await fetchMoviesList(isLocal)));
         // console.log("cached new list from " + (isLocal ? "local json." : "TMDB."));
         return;
     }
@@ -30,7 +29,7 @@ const setCachedMoviesList = async (isLocal) => {
 }
 
 const clearCachedList = () => {
-    cachedList = null;
+    window.sessionStorage.removeItem("cachedList");
     // console.log("cleared cachedList");
 }
 
