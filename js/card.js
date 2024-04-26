@@ -1,11 +1,11 @@
-let cardContainer = null;
+let $cardContainer = null;
 
-const setCardContainer = (container) => {
-    cardContainer = container ? container : null;
+const setCardContainer = ($container) => {
+    $cardContainer = $container ? $container : null;
 }
 
 const getCardContainer = () => {
-    return cardContainer;
+    return $cardContainer;
 }
 
 const createCard = (image, title, overview, rating, id) => {
@@ -26,18 +26,18 @@ const createCard = (image, title, overview, rating, id) => {
 }
 
 const addCard = (image, title, overview, rating, id) => {
-    if (cardContainer) {
+    if ($cardContainer) {
         let card = createCard(image, title, overview, rating, id);
-        cardContainer.insertAdjacentHTML('beforeend', card);
-        const cardholder = cardContainer.lastElementChild;
-        cardholder.addEventListener("click", (e) => {
+        $cardContainer.insertAdjacentHTML('beforeend', card);
+        const $cardholder = $cardContainer.lastElementChild;
+        $cardholder.addEventListener("click", (e) => {
             alert(`영화 id: ${id}`);
         });
     }
 }
 
 const emptyCards = () => {
-    if (cardContainer) cardContainer.innerHTML = "";
+    if ($cardContainer) $cardContainer.innerHTML = "";
 }
 
 export { setCardContainer, getCardContainer, createCard, addCard, emptyCards };
