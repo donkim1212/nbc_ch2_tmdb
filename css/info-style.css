@@ -1,19 +1,24 @@
 .info-container {
     /* adjust width by ratio somehow */
-    height: fit-content;
-    float: center;
+    /* height: 1000px;
+    width: 100%;
+    float: center; */
+    display: grid;
+    grid-template-columns: 40% 60%;
+    column-gap: 10px;
     background-color: white;
 }
 
-.info-container .info-left {
-    width: 40%;
+.info-left {
+    position: relative;
     float: left;
     background-color: red;
-
     align-content: center;
 }
 
-.info-container .info-right {
+.info-right {
+    position: relative;
+    display: grid;
     float: right;
     background-color: blue;
     align-content: left;

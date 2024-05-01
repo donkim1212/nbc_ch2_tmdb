@@ -29,17 +29,32 @@ const createInfoContainer = (detail, casts) => {
     $overviewDiv.classList.add('info-rm-overview');
     $infoRightDivBottom.classList.add('info-rb');
     $castDiv.classList.add('info-rb-cast');
-    $posterImg.setAttribute('src', "");
+    
+    $posterImg.setAttribute('src', "../poster_temp.jpg");
 
+    $infoRightDivBottom.appendChild($castDiv);
+    $infoRightDivMiddle.appendChild($overviewDiv);
+    $infoRightDivTop.appendChild($titleDiv);
+    $infoRightDivTop.appendChild($tagDiv);
+    $infoRightDivTop.appendChild($ratingDiv);
+    $infoRight.appendChild($infoRightDivTop);
+    $infoRight.appendChild($infoRightDivMiddle);
+    $infoRight.appendChild($infoRightDivBottom);
+    $infoLeft.appendChild($posterImg);
+    $infoContainer.appendChild($infoLeft);
+    $infoContainer.appendChild($infoRight);
 
+    return $infoContainer;
 }
 
 const loadInfoContainer = async (movieId) => {
     // 
-    const detail = await getCachedMovieDetail(movieId);
-    const casts = await getCachedMovieCasts(movieId);
+    if (!movieId) return;
+    const detail = {}// await getCachedMovieDetail(movieId);
+    const casts = {}// await getCachedMovieCasts(movieId);
     const $infoContainer = createInfoContainer(detail, casts);
-
+    emptyCardContainer();
+    $cardContainer.appendChild($infoContainer);
 }
 
 const getCachedMovieDetail = async (movieId) => {
@@ -75,7 +90,9 @@ const getCachedMovieCasts = async (movieId) => {
     return { director: director, actors: filteredCasts };
 }
 
-const dummyFunction = async (id) => { name: "someone's name" };
+const dummyFunction = async (id) => new Promise((resolve) => {
+    resolve([{ name: "someone's name" }, {} ]);
+});
 
 const setCardContainer = (elementId) => $cardContainer = document.getElementById(elementId);
 
@@ -83,4 +100,4 @@ const getCardContainer = () => $cardContainer;
 
 const emptyCardContainer = () => $cardContainer.innerHTML = "";
 
-export { setCardContainer, getCardContainer };
+export { setCardContainer, getCardContainer, loadInfoContainer };
