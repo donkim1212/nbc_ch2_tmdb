@@ -1,0 +1,61 @@
+.info-container {
+    /* adjust width by ratio somehow */
+    height: fit-content;
+    float: center;
+    background-color: white;
+}
+
+.info-container .info-left {
+    width: 40%;
+    float: left;
+    background-color: red;
+
+    align-content: center;
+}
+
+.info-container .info-right {
+    float: right;
+    background-color: blue;
+    align-content: left;
+}
+
+.info-container .info-right .info-rt {
+    height: 30%;
+}
+
+.info-container .info-right .info-rt .info-rt-title {
+    height: 50%;
+}
+
+.info-container .info-right .info-rt .info-rt-tag {
+    height: 25%;
+}
+
+.info-container .info-right .info-rt .info-rt-tag > button {
+    flex: auto;
+    flex-direction: row;
+}
+
+.info-container .info-right .info-rt .info-rt-rating {
+    height: 25%;
+}
+
+.info-container .info-right .info-rm {
+    height: 40%;
+}
+
+.info-container .info-right .info-rm {
+    height: 95%;
+}
+
+.info-container .info-right .info-rb {
+    height: 30%;
+}
+
+.info-container .info-right .info-rb .info-rb-cast{
+    height: 100%;
+}
+
+.info-container .info-right .info-rb > img {
+    height: 95%;
+}
