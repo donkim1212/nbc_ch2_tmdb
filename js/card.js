@@ -1,3 +1,5 @@
+import { loadInfoContainer } from './movie-info-loader.js';
+
 let $cardContainer = null;
 
 const setCardContainer = ($container) => {
@@ -38,7 +40,8 @@ const createCard = (image, title, overview, rating, id) => {
     $ratingP.textContent = rating;
 
     $cardHolder.addEventListener("click", (e) => {
-        alert(`영화 id: ${id}`);
+        // alert(`영화 id: ${id}`);
+        loadInfoContainer(id);
     });
 
     $cardFront.appendChild($posterImg);
