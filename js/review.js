@@ -1,4 +1,7 @@
 const filterChecker = ["임의"];
+
+//비동기 진행해야함.
+//loadReview 코드 더 진행해야함.
 window.onload = function () {
   //#region Test root & information
   const rootBox = document.querySelector("#test");
