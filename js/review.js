@@ -73,8 +73,8 @@ window.onload = function () {
   //#region Load Method
   const loadReview = (obj) => {
     const elmt = CreateElement();
-    elmt.innerHTML = `${rvData.name} / ${rvData.content}`; //더 진행해야함.
-    //Event_Subscribe().call({ elmt });
+    elmt.innerHTML = `${obj.name} / ${obj.content}`; //더 진행해야함.
+    Event_Subscribe(elmt);
   };
   //#endregion
 
@@ -88,26 +88,29 @@ window.onload = function () {
 
     reviews.forEach((rv) => {
       const rvData = JSON.parse(localStorage.getItem(rv));
-      const Emt = CreateElement(); //예시 요소 변경해야함.
-      //#region Subscribe to events
-      const Event_Subscribe = (Element) =>
-        Element.addEventListener("click", function (event) {
-          const aws = prompt("리뷰 삭제 pw를 입력하세요", "pw를 입력해주세요");
 
-          if (aws && rvData.pw == aws) {
-            //Delete data
-            localStorage.removeItem(rvData.key + "");
-            Element.remove();
-            alert("삭제 되었습니다!");
-          } else if (aws != null) {
-            alert("비밀번호를 다시 입력해주세요!");
-          }
-        });
-      //#endregion
+      const Emt = CreateElement(); //예시 요소 변경해야함.
       Event_Subscribe(Emt);
       Emt.innerHTML = `${rvData.name} / ${rvData.content}`;
     });
   };
+
+  //#endregion
+  //#region Subscribe to events
+  const Event_Subscribe = (Element) =>
+    Element.addEventListener("click", function (event) {
+      const aws = prompt("리뷰 삭제 pw를 입력하세요", "pw를 입력해주세요");
+
+      //data 넘겨주기!! 현재 rvData undefined!!
+      if (aws && rvData.pw == aws) {
+        //Delete data
+        localStorage.removeItem(rvData.key + "");
+        Element.remove();
+        alert("삭제 되었습니다!");
+      } else if (aws != null) {
+        alert("비밀번호를 다시 입력해주세요!");
+      }
+    });
   //#endregion
 
   //#region Create Element
