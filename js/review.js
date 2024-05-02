@@ -1,4 +1,7 @@
 const filterChecker = ["임의", "비속어"];
+const rgx_Name = /^[^\s]{1,8}$/;
+const rgx_Pw = /^\d{4,8}$/;
+const rgx_Content = /^.{3,50}$/;
 
 //loadReview 코드 더 진행해야함.
 window.onload = function () {
@@ -12,197 +15,183 @@ window.onload = function () {
   const saveBtn = document.querySelector("#saveReview");
   //#endregion
 
-  //#region Validation check
-  const Check = async function (obj) {
-    // Name
-    const check_name = obj.name.replace(/ /g, "");
-    if (check_name.length > 3) {
-      alert("닉네임 길이는 최대 3글자를 넘을 수 없습니다.");
-      return null;
-    } else if (check_name.length == 0) {
-      alert("닉네임을 다시 입력해주세요!");
-      return null;
-    }
-
-    // Pw
-    const check_pw = obj.pw.replace(/ /g, "");
-    if (check_pw.length !== 4) {
-      alert("비밀번호의 길이는 4자리의 수이여야 합니다.");
-      return null;
-    } else if (check_pw.length == 0) {
-      alert("비밀번호를 설정해주세요!");
-      return null;
-    }
-
-    // Content
-    const check_content = obj.content.replace(/ /g, "");
-    if (check_content.length > 50) {
-      alert("리뷰 내용은 50자를 넘을 수 없습니다!");
-      return null;
-    } else if (check_content.length == 0) {
-      alert("리뷰 내용을 적어주세요!");
-      ㅠ;
-      return null;
-    }
-
-    // Bad language
-    for (let text of filterChecker) {
-      if (
-        check_name.includes(text) ||
-        check_pw.includes(text) ||
-        check_content.includes(text)
-      ) {
-        alert("작성 내용에는 비속어를 사용하실 수 없습니다.");
+  const Return_Contents = {
+    Check_Name: (obj_Data) => {
+      if (!rgx_Name.test(obj_Data.name)) {
+        alert("닉네임은 1글자 이상 8글자 이하만 가능합니다.");
         return null;
       }
+
+      return "clear";
+    },
+
+    Check_Pw: (obj_Data) => {
+      if (!rgx_Pw.test(obj_Data.pw)) {
+        alert(!"비밀번호는 4개 이상 8개 이하의 숫자로만 설정이 가능합니다.");
+        return null;
+      }
+
+      return "clear";
+    },
+
+    Check_Content: (obj_Data) => {
+      const data = obj_Data.content.replace(/\s/g, "");
+      if (!rgx_Content.test(data)) {
+        alert("3글자 이상, 50글자 이하로만 리뷰를 작성하실 수 있습니다.");
+        return null;
+      }
+
+      return "clear";
+    },
+
+    Check_BadLanguage: (obj_Data) => {
+      for (let contents of filterChecker) {
+        if (
+          obj_Data.name.includes(contents) ||
+          obj_Data.content.includes(contents) ||
+          obj_Data.pw.includes(contents)
+        ) {
+          alert("작성 내용에는 비속어를 사용하실 수 없습니다.");
+          return null;
+        }
+        return "clear";
+      }
+    },
+
+    Check_All: (obj_Data) => {
+      if (
+        Return_Contents.Check_Name(obj_Data) &&
+        Return_Contents.Check_Pw(obj_Data) &&
+        Return_Contents.Check_Content(obj_Data) &&
+        Return_Contents.Check_BadLanguage(obj_Data)
+      ) {
+        return "clear";
+      }
+    },
+  };
+
+  const Save_Review = async function (obj_Data) {
+    //Checking
+    if (await Return_Contents.Check_All(obj_Data)) {
+      obj_Data.key = await Math.random();
+      const value = await JSON.stringify(obj_Data);
+      localStorage.setItem(obj_Data.key, value);
+      await Load_NewReview(obj_Data);
+
+      nameBox.value = "";
+      contentBox.value = "";
+      pwBox.value = "";
+      alert("작성 완료!");
     }
-    return "clear";
   };
-  //#endregion
 
-  //#region Save Methed
-  const saveReview = async function (obj) {
-    if ((await Check(obj)) != "clear") return;
-
-    // Key Create & Apply
-    obj.key = await Math.random();
-    // Format change
-    const value = await JSON.stringify(obj);
-    // Save Data (Key = Random)
-    localStorage.setItem(obj.key, value);
-
-    await loadReview(obj);
-
-    nameBox.value = "";
-    contentBox.value = "";
-    pwBox.value = "";
-    alert("작성 완료!");
+  const Load_NewReview = async (obj_Data) => {
+    const elmt = await Create_Element();
+    elmt.review.innerHTML = `${obj_Data.name} : ${obj_Data.content}`;
+    console.log(elmt);
+    Registration_ButtonEvent(elmt, obj_Data);
   };
-  //#endregion
 
-  //#region Load Method
-  const loadReview = async (obj) => {
-    const Emt = await CreateElement();
-    Emt.innerHTML = `${obj.name} : ${obj.content}`; //더 진행해야함.
-
-    const btn_delete = await document.createElement("button");
-    Emt.appendChild(btn_delete);
-    btn_delete.innerHTML = "삭제";
-
-    const btn_patch = await document.createElement("button");
-    Emt.appendChild(btn_patch);
-    btn_patch.innerHTML = "수정";
-
-    Button_event(Emt, btn_delete, btn_patch, obj);
-  };
-  //#endregion
-
-  //#region All Load Methed
   const All_loadReview = async function (id) {
-    // Data filtering
-    const reviews = await Object.keys(window.localStorage).filter((rv) => {
-      const rvData = JSON.parse(localStorage.getItem(rv));
-      return rvData.id == id;
+    const obj_Datas = await Object.keys(window.localStorage).filter((rv) => {
+      const data = JSON.parse(localStorage.getItem(rv));
+      return data.id == id;
     });
 
-    reviews.forEach(async (rv) => {
-      const rvData = await JSON.parse(localStorage.getItem(rv));
-      const Emt = await CreateElement();
-
-      const btn_delete = await document.createElement("button");
-      Emt.appendChild(btn_delete);
-      btn_delete.innerHTML = "삭제";
-
-      const btn_patch = await document.createElement("button");
-      Emt.appendChild(btn_patch);
-      btn_patch.innerHTML = "수정";
-
-      Button_event(Emt, btn_delete, btn_patch, rvData);
-      Emt.innerHTML = `${rvData.name} / ${rvData.content}`;
+    obj_Datas.forEach(async (obj_Data) => {
+      const elmt = await Create_Element();
+      Registration_ButtonEvent(elmt, obj_Data);
+      ReTouch_Text(elmt, obj_Data);
     });
   };
-  //#endregion
 
-  //#region Subscribe to events
-  const Button_event = (elmt, btn_delete, btn_patch, rvData) => {
-    btn_delete.addEventListener("click", () => {
-      const aws = prompt("리뷰 삭제 pw를 입력하세요", "pw를 입력해주세요");
+  const Registration_ButtonEvent = (elmt, obj_Data) => {
+    elmt.Delete.addEventListener("click", () => {
+      const answer = prompt("pw를 입력하세요", "pw를 입력해주세요");
 
-      if (aws && rvData.pw == aws) {
-        localStorage.removeItem(rvData.key + "");
-        elmt.remove();
+      if (answer && obj_Data.pw == answer) {
+        localStorage.removeItem(obj_Data.key + "");
+        elmt.wrap.remove();
         alert("삭제 되었습니다!");
-      } else if (aws != null) {
+      } else if (answer) {
         alert("비밀번호를 다시 입력해주세요!");
       }
     });
 
-    btn_patch.addEventListener("click", () => {
-      const aws = prompt("리뷰 수정 pw를 입혁하세요", "pw를 입력해주세요");
+    elmt.Patch.addEventListener("click", () => {
+      const answer = prompt("pw를 입혁하세요", "pw를 입력해주세요");
 
-      if (aws && rvData.pw == aws) {
-        const text = prompt("리뷰 내용을 수정하십시오", rvData.content);
-        if (text.length > 50) {
-          alert("리뷰 내용은 50자를 넘을 수 없습니다!");
-          return;
-        } else if (text.length == 0) {
-          alert("리뷰 내용을 적어주세요!");
-          return;
+      if (answer && obj_Data.pw == answer) {
+        const inf_Prompt = prompt("리뷰 내용을 수정하십시오", obj_Data.content);
+
+        const temp = obj_Data.content;
+        obj_Data.content = inf_Prompt;
+        if (
+          Return_Contents.Check_Content(obj_Data) &&
+          Return_Contents.Check_BadLanguage(obj_Data)
+        ) {
+          let patch_data = JSON.parse(localStorage.getItem(obj_Data.key));
+          localStorage.setItem(patch_data.key, JSON.stringify(patch_data));
+          ReTouch_Text(elmt, obj_Data);
+          alert("수정 되었습니다!");
         } else {
-          const temp = rvData.content;
-          rvData.content = text;
-          ////////////////////////이 부분 수정!! //////////////////////
-          if (Check(rvData) == "clear") {
-            let patch_data = JSON.parse(localStorage.getItem(rvData.key));
-            patch_data.content = text;
-            localStorage.setItem(patch_data.key, JSON.stringify(patch_data));
-
-            elmt.innerHTML = `${rvData.name} : ${text}`;
-            alert("수정 되었습니다!");
-          } else {
-            rvData.content = temp;
-            console.log("실행되었다.");
-            return;
-          }
+          obj_Data.content = temp;
+          return;
         }
-      } else if (aws != null) alert("비밀번호를 다시 입력해주세요!");
+      } else if (answer) alert("비밀번호를 다시 입력해주세요!");
     });
   };
-  //#endregion
 
-  //#region Create Element
-  const CreateElement = async () => {
-    const newElement = await document.createElement("h1"); //변경해야함
-    rootBox.appendChild(newElement);
-    return newElement;
+  const Create_Element = () => {
+    const reviewBox = document.createElement("div");
+    const reviewContent = document.createElement("h1");
+    const btn_Delete = document.createElement("button");
+    const btn_Patch = document.createElement("button");
+
+    reviewBox.appendChild(reviewContent);
+    reviewBox.appendChild(btn_Delete);
+    reviewBox.appendChild(btn_Patch);
+
+    btn_Delete.innerHTML = "삭제";
+    btn_Patch.innerHTML = "수정";
+
+    rootBox.appendChild(reviewBox);
+
+    const elmt = {
+      wrap: reviewBox,
+      review: reviewContent,
+      Patch: btn_Patch,
+      Delete: btn_Delete,
+    };
+
+    return elmt;
   };
-  //#endregion
 
-  //#region Save button event
+  const ReTouch_Text = (elmt, obj_Data) => {
+    elmt.review.innerHTML = `${obj_Data.name} / ${obj_Data.content}`;
+  };
+
   saveBtn.addEventListener("click", function () {
-    const obj = {
-      id: "255", // 끌어다 올 데이터로  채우기 255는 예시
+    const obj_Data = {
+      id: "255",
       name: nameBox.value,
       content: contentBox.value,
       pw: pwBox.value,
     };
-    saveReview(obj);
+    Save_Review(obj_Data);
   });
-  //#endregion
 
   //#region Initialization for testing
   localStorage.clear();
 
   // Test data input
-  let obj = { id: "255", name: "d", content: "내용", pw: "1234" };
-  saveReview(obj);
-  let obj2 = { id: "255", name: "상우", content: "내용", pw: "4321" };
-  saveReview(obj2);
+  let obj = { id: "255", name: "d", content: "내용입니다", pw: "1234" };
+  Save_Review(obj);
+  let obj2 = { id: "255", name: "상우", content: "내용입니다", pw: "4321" };
+  Save_Review(obj2);
 
   //Load data
   // All_loadReview(255); // !!! Run only once at startup
 
   //#endregion
-
-  //export { s };
 };
