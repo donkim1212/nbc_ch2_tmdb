@@ -1,11 +1,16 @@
+* {
+    color: white;
+}
+
 .info-container {
     /* adjust width by ratio somehow */
     /* height: 1000px;
     width: 100%;
     float: center; */
     display: grid;
-    grid-template-columns: 40% 60%;
+    grid-template-columns: auto 1fr;
     column-gap: 10px;
+    padding: 10px 10px 10px 10px;
     background-color: white;
 }
 
@@ -16,27 +21,46 @@
     align-content: center;
 }
 
+.info-left > img {
+    position: relative;
+    border-radius: 10px;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
 .info-right {
     position: relative;
     display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1.5fr 1.2fr;
     float: right;
     background-color: blue;
     align-content: left;
+    text-align: left;
 }
 
 .info-container .info-right .info-rt {
-    height: 30%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1.5fr 1fr 1fr 1fr;
+    background-color: purple;
 }
 
-.info-container .info-right .info-rt .info-rt-title {
-    height: 50%;
+.info-rt > h1 {
+    position: relative;
+    margin: 0px;
+    padding-left: 0.5em;
+    top: 50%;
+    transform: translate(0, -50%);
 }
 
-.info-container .info-right .info-rt .info-rt-tag {
-    height: 25%;
+.info-rt > P {
+    margin: 0px;
+    padding-left: 1em;
 }
 
-.info-container .info-right .info-rt .info-rt-tag > button {
+.info-rt > button {
+    height: fit-content;
     flex: auto;
     flex-direction: row;
 }
@@ -46,21 +70,26 @@
 }
 
 .info-container .info-right .info-rm {
-    height: 40%;
-}
-
-.info-container .info-right .info-rm {
-    height: 95%;
+    background-color: orange;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    overflow-y: scroll;
+    overflow-wrap: normal;
+    scrollbar-width: none;
 }
 
 .info-container .info-right .info-rb {
-    height: 30%;
+    background-color: green;
+    overflow: scroll;
 }
 
-.info-container .info-right .info-rb .info-rb-cast{
-    height: 100%;
+.info-container .info-right .info-rb > div {
+    float: left;
 }
 
 .info-container .info-right .info-rb > img {
-    height: 95%;
+    border-radius: 10px;
+    position: relative;
+    top: 50%;
+    transform: translate(0, -50%);
+    overflow: hidden;
 }
