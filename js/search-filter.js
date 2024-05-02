@@ -12,7 +12,12 @@ function searchByFilter(){
     // 카드정보 정렬하기
     
     let cardContariner = document.getElementById("card-container-01") // 카드정보 = cardcontariner id = card-container-01
-    let arr = cardContariner.children
+    let arr = cardContariner.children;
+    console.log(arr);
+    for (let i = 0; i < arr.length; i++) {
+        console.log(arr[i]);
+    }
+    if (arr?.length <= 0) return;
     arr.sort((a,b) => { 
 
        let aRating = Number(a.getElementsByClassName("card-back").lastChild.value)
