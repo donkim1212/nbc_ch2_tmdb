@@ -7,6 +7,12 @@
 .AppleDouble
 .LSOverride
 *.json
+
+# Should be ignored
+**/*.png
+**/*.jpg
+**/*.txt
+
 # Icon must end with two \r
 Icon
 
