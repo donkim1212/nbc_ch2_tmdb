@@ -1,6 +1,5 @@
-const filterChecker = ["임의"];
+const filterChecker = ["임의", "비속어"];
 
-//비동기 진행해야함.
 //loadReview 코드 더 진행해야함.
 window.onload = function () {
   //#region Test root & information
@@ -14,98 +13,102 @@ window.onload = function () {
   //#endregion
 
   //#region Save Methed
-  const saveReview = function (obj) {
+  const saveReview = async function (obj) {
     //#region Validation check
-    // Name
-    const check_name = obj.name.replace(/ /g, "");
-    if (check_name.length > 3) {
-      alert("닉네임 길이는 최대 3글자를 넘을 수 없습니다.");
-      return;
-    } else if (check_name.length == 0) {
-      alert("닉네임을 다시 입력해주세요!");
-      return;
-    }
-
-    // Pw
-    const check_pw = obj.pw.replace(/ /g, "");
-    if (check_pw.length > 4) {
-      alert("비밀번호의 길이는 4개를 넘을 수 없습니다!");
-      return;
-    } else if (check_pw.length == 0) {
-      alert("비밀번호를 다시 입력해주세요!");
-      return;
-    }
-
-    // Content
-    const check_content = obj.content.replace(/ /g, "");
-    if (check_content.length > 50) {
-      alert("리뷰 내용은 50자를 넘을 수 없습니다!");
-      return;
-    } else if (check_content.length == 0) {
-      alert("비밀번호를 다시 입력해주세요!");
-      return;
-    }
-
-    // Bad language
-    for (let text of filterChecker) {
-      if (
-        check_name.includes(text) ||
-        check_pw.includes(text) ||
-        check_content.includes(text)
-      ) {
-        alert("작성 내용에는 비속어를 사용하실 수 없습니다.");
+    const Check = async function () {
+      // Name
+      const check_name = obj.name.replace(/ /g, "");
+      if (check_name.length > 3) {
+        alert("닉네임 길이는 최대 3글자를 넘을 수 없습니다.");
+        return;
+      } else if (check_name.length == 0) {
+        alert("닉네임을 다시 입력해주세요!");
         return;
       }
-    }
+
+      // Pw
+      const check_pw = obj.pw.replace(/ /g, "");
+      if (check_pw.length > 4) {
+        alert("비밀번호의 길이는 4개를 넘을 수 없습니다!");
+        return;
+      } else if (check_pw.length == 0) {
+        alert("비밀번호를 다시 입력해주세요!");
+        return;
+      }
+
+      // Content
+      const check_content = obj.content.replace(/ /g, "");
+      if (check_content.length > 50) {
+        alert("리뷰 내용은 50자를 넘을 수 없습니다!");
+        return;
+      } else if (check_content.length == 0) {
+        alert("비밀번호를 다시 입력해주세요!");
+        return;
+      }
+
+      // Bad language
+      for (let text of filterChecker) {
+        if (
+          check_name.includes(text) ||
+          check_pw.includes(text) ||
+          check_content.includes(text)
+        ) {
+          alert("작성 내용에는 비속어를 사용하실 수 없습니다.");
+          return;
+        }
+      }
+    };
+    await Check();
     //#endregion
 
     // Key Create & Apply
-    obj.key = Math.random();
+    obj.key = await Math.random();
     // Format change
-    const value = JSON.stringify(obj);
+    const value = await JSON.stringify(obj);
     // Save Data (Key = Random)
     localStorage.setItem(obj.key, value);
 
-    loadReview(obj);
+    await loadReview(obj);
+
+    alert("작성 완료!");
   };
   //#endregion
 
   //#region Load Method
-  const loadReview = (obj) => {
-    const elmt = CreateElement();
+  const loadReview = async (obj) => {
+    const elmt = await CreateElement();
     elmt.innerHTML = `${obj.name} / ${obj.content}`; //더 진행해야함.
-    Event_Subscribe(elmt);
+    Event_Subscribe(elmt, obj);
   };
   //#endregion
 
   //#region All Load Methed
-  const AllloadReview = function (id) {
+  const All_loadReview = async function (id) {
     // Data filtering
-    const reviews = Object.keys(window.localStorage).filter((rv) => {
+    const reviews = await Object.keys(window.localStorage).filter((rv) => {
       const rvData = JSON.parse(localStorage.getItem(rv));
       return rvData.id == id;
     });
 
-    reviews.forEach((rv) => {
-      const rvData = JSON.parse(localStorage.getItem(rv));
-
-      const Emt = CreateElement(); //예시 요소 변경해야함.
-      Event_Subscribe(Emt);
+    reviews.forEach(async (rv) => {
+      const rvData = await JSON.parse(localStorage.getItem(rv));
+      const Emt = await CreateElement();
+      Event_Subscribe(Emt, rvData);
       Emt.innerHTML = `${rvData.name} / ${rvData.content}`;
     });
   };
-
   //#endregion
+
   //#region Subscribe to events
-  const Event_Subscribe = (Element) =>
-    Element.addEventListener("click", function (event) {
+  const Event_Subscribe = async (Element, rvData) =>
+    Element.addEventListener("click", async function (event) {
       const aws = prompt("리뷰 삭제 pw를 입력하세요", "pw를 입력해주세요");
 
       //data 넘겨주기!! 현재 rvData undefined!!
       if (aws && rvData.pw == aws) {
         //Delete data
         localStorage.removeItem(rvData.key + "");
-        Element.remove();
+        await Element.remove();
         alert("삭제 되었습니다!");
       } else if (aws != null) {
         alert("비밀번호를 다시 입력해주세요!");
@@ -114,8 +117,8 @@ window.onload = function () {
   //#endregion
 
   //#region Create Element
-  const CreateElement = () => {
-    const newElement = document.createElement("h1"); //변경해야함
+  const CreateElement = async () => {
+    const newElement = await document.createElement("h1"); //변경해야함
     rootBox.appendChild(newElement);
     return newElement;
   };
@@ -124,7 +127,7 @@ window.onload = function () {
   //#region Save button event
   saveBtn.addEventListener("click", function () {
     const obj = {
-      id: "255", // 끌어다 올 함수 자리로 채우기
+      id: "255", // 끌어다 올 데이터로  채우기 255는 예시
       name: nameBox.value,
       content: contentBox.value,
       pw: pwBox.value,
@@ -143,9 +146,9 @@ window.onload = function () {
   saveReview(obj2);
 
   //Load data
-  AllloadReview(255);
+  // All_loadReview(255); // !!! Run only once at startup
 
   //#endregion
 
-  //export { saveReview, AllloadReview };
+  //export { s };
 };
