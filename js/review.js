@@ -20,30 +20,30 @@ window.onload = function () {
       const check_name = obj.name.replace(/ /g, "");
       if (check_name.length > 3) {
         alert("닉네임 길이는 최대 3글자를 넘을 수 없습니다.");
-        return;
+        return null;
       } else if (check_name.length == 0) {
         alert("닉네임을 다시 입력해주세요!");
-        return;
+        return null;
       }
 
       // Pw
       const check_pw = obj.pw.replace(/ /g, "");
-      if (check_pw.length > 4) {
-        alert("비밀번호의 길이는 4개를 넘을 수 없습니다!");
-        return;
+      if (check_pw.length !== 4) {
+        alert("비밀번호의 길이는 4자리의 수이여야 합니다.");
+        return null;
       } else if (check_pw.length == 0) {
-        alert("비밀번호를 다시 입력해주세요!");
-        return;
+        alert("비밀번호를 설정해주세요!");
+        return null;
       }
 
       // Content
       const check_content = obj.content.replace(/ /g, "");
       if (check_content.length > 50) {
         alert("리뷰 내용은 50자를 넘을 수 없습니다!");
-        return;
+        return null;
       } else if (check_content.length == 0) {
-        alert("비밀번호를 다시 입력해주세요!");
-        return;
+        alert("리뷰 내용을 적어주세요!");
+        return null;
       }
 
       // Bad language
@@ -54,12 +54,14 @@ window.onload = function () {
           check_content.includes(text)
         ) {
           alert("작성 내용에는 비속어를 사용하실 수 없습니다.");
-          return;
+          return null;
         }
       }
+      return 1;
     };
-    await Check();
     //#endregion
+
+    if ((await Check()) == null) return;
 
     // Key Create & Apply
     obj.key = await Math.random();
@@ -70,6 +72,9 @@ window.onload = function () {
 
     await loadReview(obj);
 
+    nameBox.value = "";
+    contentBox.value = "";
+    pwBox.value = "";
     alert("작성 완료!");
   };
   //#endregion
