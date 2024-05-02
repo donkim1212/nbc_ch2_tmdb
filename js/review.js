@@ -56,13 +56,13 @@ window.onload = function () {
         return null;
       }
     }
-    return 1;
+    return "clear";
   };
   //#endregion
 
   //#region Save Methed
   const saveReview = async function (obj) {
-    if ((await Check(obj)) == null) return;
+    if ((await Check(obj)) != "clear") return;
 
     // Key Create & Apply
     obj.key = await Math.random();
@@ -151,16 +151,19 @@ window.onload = function () {
         } else {
           const temp = rvData.content;
           rvData.content = text;
-          if (Check(rvData) == null) {
+          ////////////////////////이 부분 수정!! //////////////////////
+          if (Check(rvData) == "clear") {
+            let patch_data = JSON.parse(localStorage.getItem(rvData.key));
+            patch_data.content = text;
+            localStorage.setItem(patch_data.key, JSON.stringify(patch_data));
+
+            elmt.innerHTML = `${rvData.name} : ${text}`;
+            alert("수정 되었습니다!");
+          } else {
             rvData.content = temp;
+            console.log("실행되었다.");
             return;
           }
-          let patch_data = JSON.parse(localStorage.getItem(rvData.key));
-          patch_data.content = text;
-          localStorage.setItem(patch_data.key, JSON.stringify(patch_data));
-
-          elmt.innerHTML = `${rvData.name} : ${text}`;
-          alert("수정 되었습니다!");
         }
       } else if (aws != null) alert("비밀번호를 다시 입력해주세요!");
     });
