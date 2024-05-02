@@ -38,8 +38,8 @@ const searchMoviesCreditsByMovieId = async (movieId) => {
 }
 
 const clearCachedList = () => {
-    window.sessionStorage.removeItem("cachedList");
-    // console.log("cleared cachedList");
-}
+  window.sessionStorage.removeItem("cachedList");
+  // console.log("cleared cachedList");
+};
 
 export { searchMoviesByTitle, searchMoviesCreditsByMovieId, searchMoviesDetailByMovieId, clearCachedList};
