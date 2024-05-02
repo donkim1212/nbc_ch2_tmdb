@@ -1,5 +1,7 @@
 import { searchMoviesByTitle, clearCachedList } from "./search-movie.js";
 import { setCardContainer, getCardContainer } from "./card.js";
+import { searchByFilter } from "./search-filter.js" 
+
 
 setInterval(clearCachedList, 60000);
 setCardContainer(document.getElementById("card-container-01"));
