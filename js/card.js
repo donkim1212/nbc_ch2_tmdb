@@ -1,12 +1,12 @@
 let $cardContainer = null;
 
 const setCardContainer = ($container) => {
-    $cardContainer = $container ? $container : null;
-}
+  $cardContainer = $container ? $container : null;
+};
 
 const getCardContainer = () => {
-    return $cardContainer;
-}
+  return $cardContainer;
+};
 
 /**
  * 
@@ -61,7 +61,7 @@ const addCard = (image, title, overview, rating, id) => {
 }
 
 const emptyCards = () => {
-    if ($cardContainer) $cardContainer.innerHTML = "";
-}
+  if ($cardContainer) $cardContainer.innerHTML = "";
+};
 
 export { setCardContainer, getCardContainer, createCard, addCard, emptyCards };

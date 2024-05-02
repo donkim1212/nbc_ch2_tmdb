@@ -12,19 +12,16 @@ const $searchBar = document.getElementById("search-bar-01");
 $searchBar.focus();
 
 $searchBar.addEventListener("keypress", function () {
-    if (window.event.keyCode == 13) {
-        search();
-    }
+  if (window.event.keyCode == 13) {
+    search();
+  }
 });
 
 $searchButton.addEventListener("click", function () {
-    search();
+  search();
 });
 
 function search() {
-    let searched = $searchBar.value;
-    searchMoviesByTitle(searched);
+  let searched = $searchBar.value;
+  searchMoviesByTitle(searched);
 }
-
-
-searchByFilter();
