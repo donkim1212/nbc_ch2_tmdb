@@ -6,10 +6,8 @@ const IMG_URL = "https://image.tmdb.org/t/p/w300";
 
 const searchMoviesByTitle = async (title) => {
     title = title.toLowerCase();
-    // await setCachedMoviesList(false);
 
     let moviesList = await fetchMoviesList();
-    // movieList 를 먼저 
     let filteredList = moviesList?.filter(function (data) {
         return data["title"].toLowerCase().includes(title);
     });
@@ -34,24 +32,9 @@ const searchMoviesDetailByMovieId = async (movieId) => {
 
 const searchMoviesCreditsByMovieId = async (movieId) => {
 
-    let creditsMovie = await(setCachedMovieCredits(movieId));
-
+    let creditsMovie = await fetchMovieCredits(movieId);
 
     return creditsMovie
-}
-
-
-const setCachedMovieCredits = async (movieId) =>{
-    return window.sessionStorage.getItem(await(fetchMovieCredits(movieId)));
-    // console.log("Save success:SeesionStorege Credits")
-}
-const setCachedMovieDetail = async (movieId) =>{
-    return window.sessionStorage.getItem(await(fetchMovieDetail(movieId)));
-    // console.log("Save success:SeesionStorege Detail")
-}
-const setCachedMoviesList = async () => {
-    return window.sessionStorage.getItem(await(fetchMoviesList()));
-    // console.log("Save success:SeesionStorege Top Rate ")
 }
 
 const clearCachedList = () => {
@@ -59,5 +42,4 @@ const clearCachedList = () => {
     // console.log("cleared cachedList");
 }
 
-export { searchMoviesByTitle, setCachedMoviesList, clearCachedList
-, setCachedMovieDetail, searchMoviesCreditsByMovieId, searchMoviesDetailByMovieId};
+export { searchMoviesByTitle, searchMoviesCreditsByMovieId, searchMoviesDetailByMovieId, clearCachedList};
