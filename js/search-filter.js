@@ -13,14 +13,19 @@ function searchByFilter(){
     
     let cardContariner = document.getElementById("card-container-01") // 카드정보 = cardcontariner id = card-container-01
     let arr = cardContariner.children;
-    // console.log(arr);
+    let arr2 = Array.from(arr);
+    console.log(arr);
+    
     // for (let i = 0; i < arr.length; i++) {
     //     console.log(arr[i]);
     // }
-    if (arr?.length <= 0) return;
-    arr.sort((a,b) => { 
+
+    
+    if (arr.length <= 0) return;
+    arr2.sort((a,b) => { 
 
        let aRating = Number(a.getElementsByClassName("card-back").lastChild.value)
+       
        let bRating = Number(b.getElementsByClassName("card-back").lastChild.value)
 
        if(aRating > bRating ){
@@ -43,7 +48,8 @@ function searchByFilter(){
         
 
     }) 
-
+    
+    
     cardContariner.innerHTML='';
 
     for(i=0;i<arr.length;i++)
@@ -51,6 +57,7 @@ function searchByFilter(){
     cardContariner.appendChild(arr[i])
    
 }
+
 
 function setDropdown(elementId){
 
@@ -61,10 +68,11 @@ function setDropdown(elementId){
 }
 
 
-searchByFilter();
+// const $sor1btn = document.getElementById("sort-a1");
 
-
-
+// $sor1btn.addEventListener("click", function () {
+//     searchByFilter();
+//   });
 
 
 export{searchByFilter}
