@@ -14,6 +14,7 @@ const rootBox = document.createElement('div'); // document.querySelector("#test"
 rootBox.classList.add('review-container');
 
 const reviewPage = document.createElement('div');
+reviewPage.classList.add('review-page');
 const reviewWriter = document.createElement('div');
 
 const nameBox = document.createElement('input'); // document.querySelector("#nameBox");
@@ -21,6 +22,7 @@ const contentBox = document.createElement('input'); // document.querySelector("#
 const pwBox = document.createElement('input'); // document.querySelector("#pwBox");
 
 const saveBtn = document.createElement('button');
+saveBtn.innerHTML = "작성";
 
 reviewWriter.appendChild(nameBox);
 reviewWriter.appendChild(contentBox);
@@ -137,10 +139,13 @@ const All_loadReview = async function (id) {
     return data.id == id;
   });
 
+  reviewPage.innerHTML = "";
+
   obj_Datas.forEach(async (obj_Data) => {
     const elmt = await Create_Element();
-    Registration_ButtonEvent(elmt, obj_Data);
-    ReTouch_Text(elmt, obj_Data);
+    const data = JSON.parse(window.localStorage.getItem(obj_Data));
+    Registration_ButtonEvent(elmt, data);
+    ReTouch_Text(elmt, data);
   });
 };
 
@@ -148,7 +153,7 @@ const Registration_ButtonEvent = (elmt, obj_Data) => {
   elmt.Delete.addEventListener("click", () => {
     const answer = prompt("pw를 입력하세요", "pw를 입력해주세요");
 
-    if (answer && obj_Data.pw == answer) {
+    if (answer && obj_Data["pw"] == answer) {
       localStorage.removeItem(obj_Data.key + "");
       elmt.wrap.remove();
       alert("삭제 되었습니다!");
@@ -158,7 +163,7 @@ const Registration_ButtonEvent = (elmt, obj_Data) => {
   });
 
   elmt.Patch.addEventListener("click", () => {
-    const answer = prompt("pw를 입혁하세요", "pw를 입력해주세요");
+    const answer = prompt("pw를 입력하세요", "pw를 입력해주세요");
 
     if (answer && obj_Data.pw == answer) {
       const inf_Prompt = prompt("리뷰 내용을 수정하십시오", obj_Data.content);
@@ -169,8 +174,8 @@ const Registration_ButtonEvent = (elmt, obj_Data) => {
         Return_Contents.Check_Content(obj_Data) &&
         Return_Contents.Check_BadLanguage(obj_Data)
       ) {
-        let patch_data = JSON.parse(localStorage.getItem(obj_Data.key));
-        localStorage.setItem(patch_data.key, JSON.stringify(patch_data));
+        // let patch_data = JSON.parse(localStorage.getItem(obj_Data.key));
+        localStorage.setItem(obj_Data.key, JSON.stringify(obj_Data));
         ReTouch_Text(elmt, obj_Data);
         alert("수정 되었습니다!");
       } else {
@@ -183,15 +188,25 @@ const Registration_ButtonEvent = (elmt, obj_Data) => {
 
 const Create_Element = () => {
   const reviewBox = document.createElement("div");
+  reviewBox.classList.add('review-box');
+  const reviewBoxHeader = document.createElement("div");
+  reviewBoxHeader.classList.add('review-box-header');
   const reviewer = document.createElement("h2");
+  const reviewBoxContent = document.createElement("div");
+  reviewBoxContent.classList.add('review-box-content');
   const reviewContent = document.createElement("h3");
+  const reviewBoxFooter = document.createElement('div');
+  reviewBoxFooter.classList.add('review-box-footer');
   const btn_Delete = document.createElement("button");
   const btn_Patch = document.createElement("button");
 
-  reviewBox.appendChild(reviewer);
-  reviewBox.appendChild(reviewContent);
-  reviewBox.appendChild(btn_Delete);
-  reviewBox.appendChild(btn_Patch);
+  reviewBoxHeader.appendChild(reviewer);
+  reviewBoxContent.appendChild(reviewContent);
+  reviewBoxFooter.appendChild(btn_Delete);
+  reviewBoxFooter.appendChild(btn_Patch);
+  reviewBox.appendChild(reviewBoxHeader);
+  reviewBox.appendChild(reviewBoxContent);
+  reviewBox.appendChild(reviewBoxFooter);
 
   btn_Delete.innerHTML = "삭제";
   btn_Patch.innerHTML = "수정";
@@ -210,10 +225,10 @@ const Create_Element = () => {
 };
 
 const ReTouch_Text = async (elmt, obj_Data) => {
-  const data = JSON.parse(window.localStorage.getItem(obj_Data));
-  if (data) {
-    elmt.reviewer.innerHTML = data["name"];
-    elmt.reviewContent.innerHTML = data["content"];
+  // const data = JSON.parse(window.localStorage.getItem(obj_Data));
+  if (obj_Data) {
+    elmt.reviewer.innerHTML = obj_Data["name"];
+    elmt.reviewContent.innerHTML = obj_Data["content"];
   }
 };
 
