@@ -7,7 +7,7 @@ const IMG_URL = "https://image.tmdb.org/t/p/w300";
 const searchMoviesByTitle = async (title) => {
     title = title.toLowerCase();
 
-    let moviesList = await fetchMoviesList();
+    let moviesList = await fetchMoviesList(l);
     let filteredList = moviesList?.filter(function (data) {
         return data["title"].toLowerCase().includes(title);
     });
@@ -23,22 +23,19 @@ const searchMoviesByTitle = async (title) => {
 }
 
 const searchMoviesDetailByMovieId = async (movieId) => {
-
-    let detailMovie = await fetchMovieDetail(movieId);
-    
-    return detailMovie;
-
+        let detailMovie = await fetchMovieDetail(movieId);
+        
+        return detailMovie;
 }
 
 const searchMoviesCreditsByMovieId = async (movieId) => {
-
-    let creditsMovie = await fetchMovieCredits(movieId);
-
-    return creditsMovie
+        let creditsMovie = await fetchMovieCredits(movieId);
+        
+        return creditsMovie
 }
 
 const clearCachedList = () => {
-  window.sessionStorage.removeItem("cachedList");
+    window.sessionStorage.removeItem("cachedList");
   // console.log("cleared cachedList");
 };
 
