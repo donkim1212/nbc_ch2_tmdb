@@ -7,7 +7,7 @@ const IMG_URL = "https://image.tmdb.org/t/p/w300";
 const searchMoviesByTitle = async (title) => {
     title = title.toLowerCase();
 
-    let moviesList = await fetchMoviesList(l);
+    let moviesList = await fetchMoviesList();
     let filteredList = moviesList?.filter(function (data) {
         return data["title"].toLowerCase().includes(title);
     });
