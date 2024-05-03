@@ -112,10 +112,16 @@ const Load_NewReview = async (obj_Data) => {
 
 const reviewLoader = (id) => {
   try {
+    saveBtn.addEventListener("click", function () {
+      const obj_Data = {
+        id: id,
+        name: nameBox.value,
+        content: contentBox.value,
+        pw: pwBox.value,
+      };
+      Save_Review(obj_Data);
+    });
     if (cardContainer) {
-      console.log("reviewLoader working");
-      console.log(cardContainer);
-      console.log(rootBox);
       cardContainer.appendChild(rootBox);
       All_loadReview(id);
     }
@@ -203,26 +209,21 @@ const Create_Element = () => {
   return elmt;
 };
 
-const ReTouch_Text = (elmt, obj_Data) => {
-  elmt.reviewer.innerHTML = obj_Data.name;
-  elmt.reviewContent.innerHTML = obj_Data.content;
+const ReTouch_Text = async (elmt, obj_Data) => {
+  const data = JSON.parse(window.localStorage.getItem(obj_Data));
+  if (data) {
+    elmt.reviewer.innerHTML = data["name"];
+    elmt.reviewContent.innerHTML = data["content"];
+  }
 };
 
-saveBtn.addEventListener("click", function () {
-  const obj_Data = {
-    id: "255",
-    name: nameBox.value,
-    content: contentBox.value,
-    pw: pwBox.value,
-  };
-  Save_Review(obj_Data);
-});
+
 
 const setCardContainer = (container) => cardContainer = container;
 
 //#region Initialization for testing
 
-localStorage.clear();
+// localStorage.clear();
 
 // Test data input
 // let obj = { id: "255", name: "d", content: "내용입니다", pw: "1234" };
