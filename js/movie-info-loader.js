@@ -1,5 +1,6 @@
 let $cardContainer = null;
 
+let isLocal = false; // flag for testing
 const LOCAL_DETAIL = '../detail.json';
 const LOCAL_CREDIT = '../credit.json';
 const ACTOR_IMG_URL = 'https://image.tmdb.org/t/p/w154';
@@ -23,8 +24,13 @@ const $otherDetailP = document.createElement('p');
 const $infoRightDivMiddle = document.createElement('div');
 const $overviewDiv = document.createElement('div');
 
+const $infoRightDivMB = document.createElement('div');
+const $castH2 = document.createElement('h2');
+$castH2.innerText = "Cast";
+
 const $infoRightDivBottom = document.createElement('div');
-const $castDiv = document.createElement('div');
+const $castGridDiv = document.createElement('div');
+// const $castDiv = document.createElement('div');
 
 // --------------------------------
 
@@ -37,13 +43,14 @@ $tagDiv.classList.add('info-rt-tag');
 $ratingDiv.classList.add('info-rt-rating');
 $infoRightDivMiddle.classList.add('info-rm');
 $overviewDiv.classList.add('info-rm-overview');
+$infoRightDivMB.classList.add('info-rmb');
 $infoRightDivBottom.classList.add('info-rb');
-$castDiv.classList.add('info-rb-cast');
+$castGridDiv.classList.add('info-rb-grid');
+// $castDiv.classList.add('info-rb-cast');
 
-$posterImg.setAttribute('src', "../poster_temp.jpg");
-
-$infoRightDivBottom.appendChild($castDiv);
-// $infoRightDivMiddle.appendChild($overviewDiv);
+$infoRightDivBottom.appendChild($castGridDiv);
+$infoRightDivMB.appendChild($castH2);
+$infoRightDivMiddle.appendChild($overviewDiv);
 $infoRightDivTop.appendChild($titleH1);
 $infoRightDivTop.appendChild($tagP);
 $infoRightDivTop.appendChild($ratingP);
@@ -53,13 +60,15 @@ $infoRightDivTop.appendChild($otherDetailP);
 // $infoRightDivTop.appendChild($ratingDiv);
 $infoRight.appendChild($infoRightDivTop);
 $infoRight.appendChild($infoRightDivMiddle);
+$infoRight.appendChild($infoRightDivMB);
 $infoRight.appendChild($infoRightDivBottom);
 $infoLeft.appendChild($posterImg);
 $infoContainer.appendChild($infoLeft);
 $infoContainer.appendChild($infoRight);
 
 const fillInfoContainer = (detail, credit) => {
-    console.log(credit);
+    // console.log(credit);
+    $posterImg.setAttribute('src', "https://image.tmdb.org/t/p/w342" + detail["poster_path"]);
     $titleH1.textContent = detail["title"];
     if (detail["genres"]) {
         $tagP.innerHTML = "";
@@ -70,11 +79,12 @@ const fillInfoContainer = (detail, credit) => {
     $ratingP.textContent = "rating: " + detail["vote_average"];
     $otherDetailP.textContent = detail["release_date"]?.substring(0, 4) + " | " + detail["runtime"] + "m | Directed by: " + credit["director"];
 
-    $infoRightDivMiddle.textContent = detail["overview"];
+    $overviewDiv.textContent = detail["overview"];
 
+    $castGridDiv.innerHTML = "";
     for (let i = 0; i < credit["actors"].length | 0 ; i++) {
         if (!credit["actors"][i]["profile_path"]) continue;
-        $infoRightDivBottom.appendChild(createActorCard(credit["actors"][i]));
+        $castGridDiv.appendChild(createActorCard(credit["actors"][i]));
     }
 }
 
@@ -101,9 +111,38 @@ const loadInfoContainer = async (movieId) => {
     $cardContainer?.appendChild($infoContainer);
 }
 
+/**
+ * 
+ * @param {Function} func function that returns JSON of movie detail based on given [movieId] of type 'string' 
+ */
+const setDetailFunc = (func) => {
+    if (typeof func == "function") getDetailExtFunc = func;
+    else getDetailExtFunc = null;
+    // console.log(getDetailExtFunc);
+}
+
+/**
+ * 
+ * @param {Function} func function that returns JSON of movie credit based on given [movieId] of type 'string' 
+ */
+const setCreditFunc = (func) => {
+    if (typeof func == "function") getCreditExtFunc = func;
+    else getCreditExtFunc = null;
+    // console.log(getCreditExtFunc);
+}
+
+let getDetailExtFunc = null;
+let getCreditExtFunc = null;
+
 const getCachedMovieDetail = async (movieId) => {
-    const detail = await (await fetch(LOCAL_DETAIL))?.json(); // change this
-    return detail;
+    try {
+        return getDetailExtFunc ? await getDetailExtFunc(movieId) : await (await fetch(LOCAL_DETAIL))?.json();
+    } catch (err) { // TODO: add case when mounted getDetailExtFunc doesn't fit the requirement
+        // catch (err instanceof Error)
+        console.log(err);
+        return null;
+    }
+    
 }
 
 /**
@@ -112,24 +151,32 @@ const getCachedMovieDetail = async (movieId) => {
  * @returns {Object} key 'director' - director's name in string, key 'actors' - actors sorted by popularity desc
  */
 const getCachedMovieCasts = async (movieId) => {
-    // get cached casts list
-    const credit = await (await fetch(LOCAL_CREDIT)).json(); // change this
-    let director = null;
-    for (let i = 0; i < credit["crew"]?.length; i++) {
-        if (credit["crew"][i]["job"] == "Director") {
-            director = credit["crew"][i]["name"];
-            break;
+    try {
+        // get cached casts list
+        const credit = getCreditExtFunc ? await getCreditExtFunc(movieId) : await (await fetch(LOCAL_CREDIT)).json(); // change this
+        let director = null;
+        for (let i = 0; i < credit["crew"]?.length; i++) {
+            if (credit["crew"][i]["job"] == "Director") {
+                director = credit["crew"][i]["name"];
+                break;
+            }
         }
-    }
 
-    // filter that list by popular people list (compare people's id)
-    const filteredCasts = credit["cast"]?.filter(data => data["character"])
-        .sort((a, b) => {
+        // filter that list by popular people list (compare people's id)
+        const sortedCasts = credit["cast"]?.sort((a, b) => {
             // actor with higher popularity goes first
-            return a["popularity"] > b["popularity"] ? -1 : 1;
+            if (a["popularity"] > b["popularity"]) return -1;
+            else if (a["popularity"] < b["popularity"]) return 1;
+            else return 0;
         });
-    // return that list
-    return { director: director, actors: filteredCasts };
+        // return that list
+        return { director: director, actors: sortedCasts };
+    } catch (err) { // TODO: add case when mounted getDetailExtFunc doesn't fit the requirement
+        // catch (err instanceof Error)
+        console.log(err);
+        return null;
+    }
+    
 }
 
 const dummyFunction = async (id) => new Promise((resolve) => {
@@ -147,4 +194,4 @@ const getCardContainer = () => $cardContainer;
 
 const emptyCardContainer = () => $cardContainer.innerHTML = "";
 
-export { setCardContainer, getCardContainer, loadInfoContainer };
+export { setCardContainer, getCardContainer, loadInfoContainer, setDetailFunc, setCreditFunc };
