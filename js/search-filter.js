@@ -11,8 +11,8 @@ function searchByFilter(){
     // 어떻게 받아올까 
     // 카드정보 정렬하기
     
-    let cardContariner = document.getElementById("card-container-01") // 카드정보 = cardcontariner id = card-container-01
-    let arr = cardContariner.children;
+    let cardContainer = document.getElementById("card-container-01") // 카드정보 = cardcontariner id = card-container-01
+    let arr = cardContainer.children;
     let arr2 = [...arr]
     
     
@@ -48,12 +48,12 @@ function searchByFilter(){
 
     }) 
     
-    console.log(arr2)
-    cardContariner.innerHTML='';
+    cardContainer.innerHTML='';
 
-    for(let i=0;i<arr.length;i++)
-
-    cardContariner.appendChild(arr2[i])
+    for(let i=0;i<arr2.length;i++) {
+        console.log(arr2[i]);
+        cardContainer.appendChild(arr2[i]);
+    }
    
 }
 
