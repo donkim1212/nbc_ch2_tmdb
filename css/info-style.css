@@ -1,19 +1,15 @@
-* {
-    scrollbar-color: white black;
-    scrollbar-width: thin;
-}
-
 .info-container {
     /* adjust width by ratio somehow */
     /* height: 1000px; */
-    position: relative;
-    width: 70%;
-    max-width: 1024px;
-    transform: translate(20%, 0px);
+    position: absolute;
+    width: 50vw;
+    /* max-width: 768px; */
     /* float: center; */
-
+    left: 50vw;
+    transform: translate(-50%, 0);
     padding: 10px 10px 10px 10px;
-    
+    /* margin: 0 auto; */
+
     /* grid-template-columns: auto 1fr; */
     
     /* padding: 10px 10px 10px 10px; */
@@ -34,7 +30,7 @@
     "a c"
     "a d"
     "a e";
-    
+
 }
 
 .info-container * {
@@ -55,6 +51,11 @@
     border: 1px solid white;
     top: 50%;
     transform: translate(0, -50%);
+}
+
+.info-right {
+    scrollbar-color: white black;
+    scrollbar-width: thin;
 }
 
 .info-rt {
@@ -102,31 +103,23 @@
     padding-left: 10px;
 }
 
-.info-rb {
+.info-container .info-right .info-rb {
     grid-area: e;
     /* background-color: orangered; */
     overflow-x: scroll;
-    /* scrollbar-width: none; */
-    height: 250px;
-    max-width: 650px;
+    height: 254px;
 }
 
 .info-rb .info-rb-grid {
+    width: 1em;
     display: grid;
-    /* grid-template-columns: repeat(4, 1fr); */
     grid-auto-columns:min(154px);
     grid-auto-flow: column;
-    /* grid-template-rows: repeat(5, 1fr); */
     gap: 5px;
 }
 
 .info-rb-grid > div {
-    /* float: left; */
-    width: fit-content;
-    max-width: fit-content;
+    /* width: fit-content; */
     border-radius: 10px;
     overflow: hidden;
-    
-    /* margin-right: 10px;
-    margin-bottom: 10px; */
 }
