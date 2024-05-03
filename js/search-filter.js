@@ -13,21 +13,20 @@ function searchByFilter(){
     
     let cardContariner = document.getElementById("card-container-01") // 카드정보 = cardcontariner id = card-container-01
     let arr = cardContariner.children;
-    let arr2 = Array.from(arr);
-    console.log(arr);
+    let arr2 = [...arr]
+    
     
     // for (let i = 0; i < arr.length; i++) {
     //     console.log(arr[i]);
     // }
+    // console.log(document.getElementsByClassName("card-back").)
 
-    
     if (arr.length <= 0) return;
     arr2.sort((a,b) => { 
-
-       let aRating = Number(a.getElementsByClassName("card-back").lastChild.value)
-       
-       let bRating = Number(b.getElementsByClassName("card-back").lastChild.value)
-
+        
+       let aRating = Number(a.querySelector("#rating-id").textContent);
+       let bRating = Number(b.querySelector("#rating-id").textContent);
+      
        if(aRating > bRating ){
 
         return -1;
@@ -49,12 +48,12 @@ function searchByFilter(){
 
     }) 
     
-    
+    console.log(arr2)
     cardContariner.innerHTML='';
 
-    for(i=0;i<arr.length;i++)
+    for(let i=0;i<arr.length;i++)
 
-    cardContariner.appendChild(arr[i])
+    cardContariner.appendChild(arr2[i])
    
 }
 
@@ -68,11 +67,12 @@ function setDropdown(elementId){
 }
 
 
-// const $sor1btn = document.getElementById("sort-a1");
+const $sor1btn = document.getElementById("sort-a1");
 
-// $sor1btn.addEventListener("click", function () {
-//     searchByFilter();
-//   });
+$sor1btn.addEventListener("click", function () {
+    searchByFilter();
+
+  });
 
 
 export{searchByFilter}
