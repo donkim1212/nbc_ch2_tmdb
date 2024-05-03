@@ -13,6 +13,7 @@ setCreditFunc(searchMoviesCreditsByMovieId);
 
 const $searchButton = document.getElementById("search-btn-01");
 const $searchBar = document.getElementById("search-bar-01");
+
 $searchBar.focus();
 
 $searchBar.addEventListener("keypress", function () {
@@ -29,3 +30,5 @@ function search() {
   let searched = $searchBar.value;
   searchMoviesByTitle(searched);
 }
+
+

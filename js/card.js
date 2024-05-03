@@ -38,6 +38,7 @@ const createCard = (image, title, overview, rating, id) => {
     $titleH1.textContent = title;
     $overviewP.textContent = overview;
     $ratingP.textContent = rating;
+    $ratingP.setAttribute('id','rating-id');
 
     $cardHolder.addEventListener("click", (e) => {
         // alert(`영화 id: ${id}`);
