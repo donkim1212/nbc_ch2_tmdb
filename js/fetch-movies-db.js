@@ -14,9 +14,10 @@ const options = {
 };
 
 /**
- *
- * @param {boolean} isLocal true uses local, false uses TMDB list
- * @returns {string} - Returns the key for session storage
+ * Fetches the top rated movies list.
+ * Either from local storage or from TMDB based on the `isLocal` flag.
+ * 
+ * @returns {Object[]} - Returns an array of movie objects from session storage or API response.
  */
 const fetchMoviesList = async () => {
     try{
@@ -31,15 +32,16 @@ const fetchMoviesList = async () => {
         }
     } catch (err) {
         console.log(err);
+        return [];
     }
 }
 
 /**
- * Fetches the movie list using the provided movie ID.
+ * Fetches the movie list using the provided movie ID. 
+ * Either from local storage or from TMDB based on the `isLocal` flag.
  * 
- * @param {boolean} isLocal true uses local, false uses TMDB list
  * @param {number} movieId - The ID of the movie to fetch the list for.
- * @returns {Array} - The fetched movie detail list.
+ * @returns {Object} - he fetched movie detail object or null if an error occurs.
  */
 const fetchMovieDetail = async (movieId) => {
     try{
@@ -49,8 +51,8 @@ const fetchMovieDetail = async (movieId) => {
             return JSON.parse(movieDetail);
         }else{
             let data = await (await fetch(isLocal? DETAIL_LOCAL_FILE : `${URL}${movieId}?language=en-US&page=1`, options)).json();
-            sessionStorage.setItem(`${movieId}Detail`, JSON.stringify(data["results"]));
-            return data["results"];
+            sessionStorage.setItem(`${movieId}Detail`, JSON.stringify(data));
+            return data;
         }
     } catch (err) {
         console.log(err);
@@ -58,11 +60,11 @@ const fetchMovieDetail = async (movieId) => {
 }
 
 /**
- * Fetches the movie list using the provided movie ID.
+ * Fetches the movie list using the provided movie ID. 
+ * Either from local storage or from TMDB based on the `isLocal` flag.
  * 
- * @param {boolean} isLocal true uses local, false uses TMDB list
  * @param {number} movieId - The ID of the movie to fetch the list for.
- * @returns {Array} - The fetched movie credits list.
+ * @returns {Object} - he fetched movie Credits object or null if an error occurs.
  */
 const fetchMovieCredits = async (movieId) => {
     try{
@@ -71,9 +73,8 @@ const fetchMovieCredits = async (movieId) => {
             return JSON.parse(movieCredits);
         }else{
             let data = await (await fetch(isLocal? CREDITS_LOCAL_FILE : `${URL}${movieId}/credits?language=en-US`, options)).json();
-            sessionStorage.setItem(`${movieId}Credits`, JSON.stringify(data["results"]));
-            console.log(data);
-            return data["results"];
+            sessionStorage.setItem(`${movieId}Credits`, JSON.stringify(data));
+            return data;
         }
     } catch (err) {
         console.log(err);

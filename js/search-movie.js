@@ -23,24 +23,15 @@ const searchMoviesByTitle = async (title) => {
 }
 
 const searchMoviesDetailByMovieId = async (movieId) => {
-    try{
         let detailMovie = await fetchMovieDetail(movieId);
+        
         return detailMovie;
-    } catch(error) {
-        console.log(error);
-        return null;
-    }
-
 }
 
 const searchMoviesCreditsByMovieId = async (movieId) => {
-    try{
         let creditsMovie = await fetchMovieCredits(movieId);
+        
         return creditsMovie
-    }catch(error) {
-        console.log(error);
-        return null;
-    }
 }
 
 const clearCachedList = () => {
