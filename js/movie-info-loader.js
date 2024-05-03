@@ -1,5 +1,6 @@
 let $cardContainer = null;
 
+let isLocal = false; // flag for testing
 const LOCAL_DETAIL = '../detail.json';
 const LOCAL_CREDIT = '../credit.json';
 const ACTOR_IMG_URL = 'https://image.tmdb.org/t/p/w154';
@@ -101,9 +102,38 @@ const loadInfoContainer = async (movieId) => {
     $cardContainer?.appendChild($infoContainer);
 }
 
+/**
+ * 
+ * @param {Function} func function that returns JSON of movie detail based on given [movieId] of type 'string' 
+ */
+const setDetailFunc = (func) => {
+    if (typeof func == "function") getDetailExtFunc = func;
+    else getDetailExtFunc = null;
+    // console.log(getDetailExtFunc);
+}
+
+/**
+ * 
+ * @param {Function} func function that returns JSON of movie credit based on given [movieId] of type 'string' 
+ */
+const setCreditFunc = (func) => {
+    if (typeof func == "function") getCreditExtFunc = func;
+    else getCreditExtFunc = null;
+    // console.log(getCreditExtFunc);
+}
+
+let getDetailExtFunc = null;
+let getCreditExtFunc = null;
+
 const getCachedMovieDetail = async (movieId) => {
-    const detail = await (await fetch(LOCAL_DETAIL))?.json(); // change this
-    return detail;
+    try {
+        return getDetailExtFunc ? await getDetailExtFunc(movieId) : await (await fetch(LOCAL_DETAIL))?.json();
+    } catch (err) { // TODO: add case when mounted getDetailExtFunc doesn't fit the requirement
+        // catch (err instanceof Error)
+        console.log(err);
+        return null;
+    }
+    
 }
 
 /**
@@ -112,24 +142,32 @@ const getCachedMovieDetail = async (movieId) => {
  * @returns {Object} key 'director' - director's name in string, key 'actors' - actors sorted by popularity desc
  */
 const getCachedMovieCasts = async (movieId) => {
-    // get cached casts list
-    const credit = await (await fetch(LOCAL_CREDIT)).json(); // change this
-    let director = null;
-    for (let i = 0; i < credit["crew"]?.length; i++) {
-        if (credit["crew"][i]["job"] == "Director") {
-            director = credit["crew"][i]["name"];
-            break;
+    try {
+        // get cached casts list
+        const credit = getCreditExtFunc ? await getCreditExtFunc(movieId) : await (await fetch(LOCAL_CREDIT)).json(); // change this
+        let director = null;
+        for (let i = 0; i < credit["crew"]?.length; i++) {
+            if (credit["crew"][i]["job"] == "Director") {
+                director = credit["crew"][i]["name"];
+                break;
+            }
         }
-    }
 
-    // filter that list by popular people list (compare people's id)
-    const filteredCasts = credit["cast"]?.filter(data => data["character"])
-        .sort((a, b) => {
-            // actor with higher popularity goes first
-            return a["popularity"] > b["popularity"] ? -1 : 1;
-        });
-    // return that list
-    return { director: director, actors: filteredCasts };
+        // filter that list by popular people list (compare people's id)
+        const filteredCasts = credit["cast"]?.sort((a, b) => {
+                // actor with higher popularity goes first
+                if (a["popularity"] > b["popularity"]) return -1;
+                else if (a["popularity"] < b["popularity"]) return 1;
+                else return 0;
+            });
+        // return that list
+        return { director: director, actors: filteredCasts };
+    } catch (err) { // TODO: add case when mounted getDetailExtFunc doesn't fit the requirement
+        // catch (err instanceof Error)
+        console.log(err);
+        return null;
+    }
+    
 }
 
 const dummyFunction = async (id) => new Promise((resolve) => {
@@ -147,4 +185,4 @@ const getCardContainer = () => $cardContainer;
 
 const emptyCardContainer = () => $cardContainer.innerHTML = "";
 
-export { setCardContainer, getCardContainer, loadInfoContainer };
+export { setCardContainer, getCardContainer, loadInfoContainer, setDetailFunc, setCreditFunc };
