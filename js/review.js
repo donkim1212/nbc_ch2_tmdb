@@ -190,6 +190,7 @@ saveBtn.addEventListener("click", function () {
 });
 
 //#region Initialization for testing
+
 localStorage.clear();
 
 // Test data input
