@@ -3,7 +3,11 @@ const rgx_Name = /^[^\s]{1,8}$/;
 const rgx_Pw = /^\d{4,8}$/;
 const rgx_Content = /^.{3,50}$/;
 
-//loadReview 코드 더 진행해야함.
+// 간단 정리
+// 1. 해당 영화에 대한 상세페이지에 접속시 All_loadReview 함수에 영화의 id값을 넣고 한번 사용해주면 원래 작성해둔 리뷰가 등장합니다. (각 영화의 상세페이지 로드시 딱 한번만 실행)
+// 2. 리뷰 작성 버튼을 눌러 저장할 때에 Save_Review 함수에 obj_data (이 객체의 내용물은 제일 하단의 saveBtn.addEventListener 메서드에서 확인할 수 있습니다. 현재 id는 test값)
+// 3. 리뷰 추가시 생성되는 태그는 Create_Element 확인이 가능합니다. (구역, 작성자 이름, 리뷰 내용, 삭제 버튼, 수정 버튼 으로 구성.)
+
 window.onload = function () {
   //#region Test root & information
   const rootBox = document.querySelector("#test");
@@ -27,7 +31,7 @@ window.onload = function () {
 
     Check_Pw: (obj_Data) => {
       if (!rgx_Pw.test(obj_Data.pw)) {
-        alert(!"비밀번호는 4개 이상 8개 이하의 숫자로만 설정이 가능합니다.");
+        alert("비밀번호는 4개 이상 8개 이하의 숫자로만 설정이 가능합니다.");
         return null;
       }
 
@@ -87,8 +91,9 @@ window.onload = function () {
 
   const Load_NewReview = async (obj_Data) => {
     const elmt = await Create_Element();
-    elmt.review.innerHTML = `${obj_Data.name} : ${obj_Data.content}`;
-    console.log(elmt);
+    elmt.reviewer.innerHTML = obj_Data.name;
+    elmt.reviewContent.innerHTML = obj_Data.content;
+
     Registration_ButtonEvent(elmt, obj_Data);
   };
 
@@ -144,10 +149,12 @@ window.onload = function () {
 
   const Create_Element = () => {
     const reviewBox = document.createElement("div");
-    const reviewContent = document.createElement("h1");
+    const reviewer = document.createElement("h2");
+    const reviewContent = document.createElement("h3");
     const btn_Delete = document.createElement("button");
     const btn_Patch = document.createElement("button");
 
+    reviewBox.appendChild(reviewer);
     reviewBox.appendChild(reviewContent);
     reviewBox.appendChild(btn_Delete);
     reviewBox.appendChild(btn_Patch);
@@ -159,7 +166,8 @@ window.onload = function () {
 
     const elmt = {
       wrap: reviewBox,
-      review: reviewContent,
+      reviewer: reviewer,
+      reviewContent: reviewContent,
       Patch: btn_Patch,
       Delete: btn_Delete,
     };
@@ -168,7 +176,8 @@ window.onload = function () {
   };
 
   const ReTouch_Text = (elmt, obj_Data) => {
-    elmt.review.innerHTML = `${obj_Data.name} / ${obj_Data.content}`;
+    elmt.reviewer.innerHTML = obj_Data.name;
+    elmt.reviewContent.innerHTML = obj_Data.content;
   };
 
   saveBtn.addEventListener("click", function () {
