@@ -150,10 +150,13 @@ body {
 }
 
 .subMenu {
+    position: absolute;
     display: none; /*처음에 안보이게*/
     width: inherit;
     border: 1px solid #eee;
     box-shadow: 0 0 10px rgba(0,0,0,0.17);
+    background-color: black;
+    z-index: 10;
 }
 
 .subMenu a {

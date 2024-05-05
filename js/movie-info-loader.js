@@ -24,8 +24,13 @@ const $otherDetailP = document.createElement('p');
 const $infoRightDivMiddle = document.createElement('div');
 const $overviewDiv = document.createElement('div');
 
+const $infoRightDivMB = document.createElement('div');
+const $castH2 = document.createElement('h2');
+$castH2.innerText = "Cast";
+
 const $infoRightDivBottom = document.createElement('div');
-const $castDiv = document.createElement('div');
+const $castGridDiv = document.createElement('div');
+// const $castDiv = document.createElement('div');
 
 // --------------------------------
 
@@ -38,13 +43,14 @@ $tagDiv.classList.add('info-rt-tag');
 $ratingDiv.classList.add('info-rt-rating');
 $infoRightDivMiddle.classList.add('info-rm');
 $overviewDiv.classList.add('info-rm-overview');
+$infoRightDivMB.classList.add('info-rmb');
 $infoRightDivBottom.classList.add('info-rb');
-$castDiv.classList.add('info-rb-cast');
+$castGridDiv.classList.add('info-rb-grid');
+// $castDiv.classList.add('info-rb-cast');
 
-$posterImg.setAttribute('src', "../poster_temp.jpg");
-
-$infoRightDivBottom.appendChild($castDiv);
-// $infoRightDivMiddle.appendChild($overviewDiv);
+$infoRightDivBottom.appendChild($castGridDiv);
+$infoRightDivMB.appendChild($castH2);
+$infoRightDivMiddle.appendChild($overviewDiv);
 $infoRightDivTop.appendChild($titleH1);
 $infoRightDivTop.appendChild($tagP);
 $infoRightDivTop.appendChild($ratingP);
@@ -54,13 +60,15 @@ $infoRightDivTop.appendChild($otherDetailP);
 // $infoRightDivTop.appendChild($ratingDiv);
 $infoRight.appendChild($infoRightDivTop);
 $infoRight.appendChild($infoRightDivMiddle);
+$infoRight.appendChild($infoRightDivMB);
 $infoRight.appendChild($infoRightDivBottom);
 $infoLeft.appendChild($posterImg);
 $infoContainer.appendChild($infoLeft);
 $infoContainer.appendChild($infoRight);
 
 const fillInfoContainer = (detail, credit) => {
-    console.log(credit);
+    // console.log(credit);
+    $posterImg.setAttribute('src', "https://image.tmdb.org/t/p/w342" + detail["poster_path"]);
     $titleH1.textContent = detail["title"];
     if (detail["genres"]) {
         $tagP.innerHTML = "";
@@ -71,11 +79,12 @@ const fillInfoContainer = (detail, credit) => {
     $ratingP.textContent = "rating: " + detail["vote_average"];
     $otherDetailP.textContent = detail["release_date"]?.substring(0, 4) + " | " + detail["runtime"] + "m | Directed by: " + credit["director"];
 
-    $infoRightDivMiddle.textContent = detail["overview"];
+    $overviewDiv.textContent = detail["overview"];
 
+    $castGridDiv.innerHTML = "";
     for (let i = 0; i < credit["actors"].length | 0 ; i++) {
         if (!credit["actors"][i]["profile_path"]) continue;
-        $infoRightDivBottom.appendChild(createActorCard(credit["actors"][i]));
+        $castGridDiv.appendChild(createActorCard(credit["actors"][i]));
     }
 }
 
@@ -154,14 +163,14 @@ const getCachedMovieCasts = async (movieId) => {
         }
 
         // filter that list by popular people list (compare people's id)
-        const filteredCasts = credit["cast"]?.sort((a, b) => {
-                // actor with higher popularity goes first
-                if (a["popularity"] > b["popularity"]) return -1;
-                else if (a["popularity"] < b["popularity"]) return 1;
-                else return 0;
-            });
+        const sortedCasts = credit["cast"]?.sort((a, b) => {
+            // actor with higher popularity goes first
+            if (a["popularity"] > b["popularity"]) return -1;
+            else if (a["popularity"] < b["popularity"]) return 1;
+            else return 0;
+        });
         // return that list
-        return { director: director, actors: filteredCasts };
+        return { director: director, actors: sortedCasts };
     } catch (err) { // TODO: add case when mounted getDetailExtFunc doesn't fit the requirement
         // catch (err instanceof Error)
         console.log(err);
