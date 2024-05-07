@@ -16,6 +16,7 @@ $sortMenuB.innerText = '평점 내림차순';
 $sortMenuB.addEventListener("click", function () {
   searchByFilter(false);
 });
+const $sortMenuC = documnet.createElement('a');
 $sortMenuC.setAttribute('href', '#none');
 $sortMenuC.innerText = '제목순';
 $sortMenuC.addEventListener("click", function () {
@@ -24,6 +25,7 @@ $sortMenuC.addEventListener("click", function () {
 
 $sortMenu.appendChild($sortMenuA);
 $sortMenu.appendChild($sortMenuB);
+$sortMenu.appendChild($sortMenuC);
 $sortBtnContainer.appendChild($sortBtn);
 $sortBtnContainer.appendChild($sortMenu);
 
