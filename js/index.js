@@ -1,7 +1,7 @@
 import { searchMoviesByTitle, clearCachedList, searchMoviesDetailByMovieId, searchMoviesCreditsByMovieId } from "./search-movie.js";
 import { setCardContainer, mountInfoLoader, mountReviewLoader } from "./card.js";
 import { setCardContainer as setCardContainerInfo, setDetailFunc, setCreditFunc, loadInfoContainer } from "./movie-info-loader.js";
-import { searchByFilter } from "./search-filter.js";
+import { searchByFilter,searchByFilter2} from "./search-filter.js";
 import { reviewLoader, setCardContainer as setCardContainerReview } from "./review.js";
 
 const CARD_CONTAINER_ID = "card-container-01";
