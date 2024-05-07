@@ -1,12 +1,7 @@
-let $cardContainer = null;
+const $cardContainer = document.createElement('div');
+$cardContainer.setAttribute('id', 'card-container-01');
 
-const setCardContainer = ($container) => {
-  $cardContainer = $container ? $container : null;
-};
-
-const getCardContainer = () => {
-  return $cardContainer;
-};
+const getCardContainer = () => $cardContainer;
 
 /**
  * 
@@ -19,30 +14,33 @@ const getCardContainer = () => {
  */
 const createCard = (image, title, overview, rating, id) => {
     const $cardHolder = document.createElement('div');
-    const $card = document.createElement('div');
-    const $cardFront = document.createElement('div');
-    const $cardBack = document.createElement('div');
-    const $posterImg = document.createElement('img');
-    const $titleH1 = document.createElement('h1');
-    const $overviewP = document.createElement('p');
-    const $ratingP = document.createElement('p');
-
     $cardHolder.classList.add('cardholder');
+    $cardHolder.setAttribute('id', id);
+    $cardHolder.addEventListener("click", async function (e) {
+      // if ($targetElement != null) {
+      //   $cardContainer.classList.toggle('disabled');
+      //   $targetElement.classList.toggle('disabled');
+      // }
+      for (let i = 0; i < cardClickEventFunctions.length; i++) {
+        if (typeof cardClickEventFunctions[i] != "function") continue;
+        await cardClickEventFunctions[i](id);
+      }
+    });
+    const $card = document.createElement('div');
     $card.classList.add('card');
+    const $cardFront = document.createElement('div');
     $cardFront.classList.add('card-front');
+    const $cardBack = document.createElement('div');
     $cardBack.classList.add('card-back');
-
+    const $posterImg = document.createElement('img');
     $posterImg.setAttribute('src', image);
+    const $titleH1 = document.createElement('h1');
     $titleH1.textContent = title;
+    const $overviewP = document.createElement('p');
     $overviewP.textContent = overview;
+    const $ratingP = document.createElement('p');
     $ratingP.textContent = rating;
     $ratingP.setAttribute('id','rating-id');
-
-    $cardHolder.addEventListener("click", async (e) => {
-        // alert(`영화 id: ${id}`);
-        if (getInfoLoader) await getInfoLoader(id);
-        if (getReviewLoader) getReviewLoader(id);
-    });
 
     $cardFront.appendChild($posterImg);
 
@@ -58,9 +56,22 @@ const createCard = (image, title, overview, rating, id) => {
     return $cardHolder;
 }
 
+let cardClickEventFunctions = null;
+
+/**
+ * Set list of functions to run when clicking a movie card.
+ * @param  {...function} functions will run in order
+ */
+const setCardClickEventFunc = (...functions) => {
+  cardClickEventFunctions = functions;
+}
+
 const addCard = (image, title, overview, rating, id) => {
     if (!image || !title || !overview || !rating || !id) return;
-    if ($cardContainer) $cardContainer.appendChild(createCard(image, title, overview, rating, id));
+    if ($cardContainer) {
+      // if ($cardContainer.classList.contains('disabled'))
+      $cardContainer.appendChild(createCard(image, title, overview, rating, id));
+    }
 }
 
 const emptyCards = () => {
@@ -78,4 +89,12 @@ const mountReviewLoader = (func) => {
 let getInfoLoader = null;
 let getReviewLoader = null;
 
-export { setCardContainer, getCardContainer, createCard, addCard, emptyCards, mountInfoLoader, mountReviewLoader };
+export {
+  getCardContainer,
+  setCardClickEventFunc,
+  createCard,
+  addCard,
+  emptyCards,
+  mountInfoLoader,
+  mountReviewLoader
+};

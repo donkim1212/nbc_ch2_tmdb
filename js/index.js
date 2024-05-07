@@ -1,40 +1,41 @@
-import { searchMoviesByTitle, clearCachedList, searchMoviesDetailByMovieId, searchMoviesCreditsByMovieId } from "./search-movie.js";
-import { setCardContainer, mountInfoLoader, mountReviewLoader } from "./card.js";
-import { setCardContainer as setCardContainerInfo, setDetailFunc, setCreditFunc, loadInfoContainer } from "./movie-info-loader.js";
-import { searchByFilter } from "./search-filter.js";
-import { reviewLoader, setCardContainer as setCardContainerReview } from "./review.js";
+import { getSearchBarContainer, getSearchBar, searchMoviesByTitle, clearCachedList, searchMoviesDetailByMovieId, searchMoviesCreditsByMovieId } from "./search-movie.js";
+import { getSortButtonContainer } from "./search-filter.js";
+import { getCardContainer, setCardClickEventFunc } from "./card.js";
+import { mountGetDetailFunc, mountGetCreditFunc, getInfoContainer, infoLoader } from "./movie-info-loader.js";
+import { getReviewContainer, reviewLoader } from "./review.js";
+import { toggleElements, toggleEnabler } from "./simple-toggler.js";
 
-const CARD_CONTAINER_ID = "card-container-01";
+const SEARCH_CONTAINER_ID = "search-container-01";
+const CARD_CONTAINER_ID = "card-wrapper-01";
+const INFO_REVIEW_WRAPPER_ID = "info-review-wrapper-01";
 
 setInterval(clearCachedList, 60000);
-const cc = document.getElementById(CARD_CONTAINER_ID);  
-setCardContainer(cc);
-setCardContainerInfo(cc);
-setCardContainerReview(cc);
+setCardClickEventFunc(infoLoader, reviewLoader);
+const $searchContainer = document.getElementById(SEARCH_CONTAINER_ID);
+const $cardContainer = document.getElementById(CARD_CONTAINER_ID);
+const $infoReviewWrapper = document.getElementById(INFO_REVIEW_WRAPPER_ID);
+
+$searchContainer.appendChild(getSearchBarContainer());
+getSearchBarContainer().appendChild(getSortButtonContainer());
+$cardContainer.appendChild(getCardContainer());
+$infoReviewWrapper.appendChild(getInfoContainer());
+$infoReviewWrapper.appendChild(getReviewContainer());
+
+// enableToggle($infoReviewWrapper);
+// setCardContainer($cardContainer);
+// setCardContainerInfo($cardContainer);
+// setCardContainerReview($cardContainer);
+// setInfoReviewWrapper($infoReviewWrapper);
+
+mountGetDetailFunc(searchMoviesDetailByMovieId);
+mountGetCreditFunc(searchMoviesCreditsByMovieId);
+
 searchMoviesByTitle(""); // load all movies list
-setDetailFunc(searchMoviesDetailByMovieId);
-setCreditFunc(searchMoviesCreditsByMovieId);
-mountInfoLoader(loadInfoContainer);
-mountReviewLoader(reviewLoader);
+getSearchBar().focus();
 
-const $searchButton = document.getElementById("search-btn-01");
-const $searchBar = document.getElementById("search-bar-01");
+// mountInfoLoader(loadInfoContainer);
+// mountReviewLoader(reviewLoader);
 
-$searchBar.focus();
 
-$searchBar.addEventListener("keypress", function () {
-  if (window.event.keyCode == 13) {
-    search();
-  }
-});
-
-$searchButton.addEventListener("click", function () {
-  search();
-});
-
-function search() {
-  let searched = $searchBar.value;
-  searchMoviesByTitle(searched);
-}
 
 

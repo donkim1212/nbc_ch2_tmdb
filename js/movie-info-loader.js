@@ -67,6 +67,7 @@ $infoContainer.appendChild($infoLeft);
 $infoContainer.appendChild($infoRight);
 
 const fillInfoContainer = (detail, credit) => {
+    // TODO: consider null arguments somewhere
     // console.log(credit);
     $posterImg.setAttribute('src', "https://image.tmdb.org/t/p/w342" + detail["poster_path"]);
     $titleH1.textContent = detail["title"];
@@ -102,20 +103,25 @@ const createActorCard = actor => {
     return $actorCard;
 }
 
-const loadInfoContainer = async (movieId) => {
+const getInfoContainer = () => $infoContainer;
+
+/**
+ * Loads and fill movie info to the info-container based on given movie ID.
+ * @param {string} movieId movie's ID from TMDB
+ */
+const infoLoader = async (movieId) => {
     if (!movieId) return;
     const detail = await getCachedMovieDetail(movieId);
     const credit = await getCachedMovieCasts(movieId);
     fillInfoContainer(detail, credit);
-    emptyCardContainer();
-    $cardContainer?.appendChild($infoContainer);
+    // emptyCardContainer();
 }
 
 /**
  * 
  * @param {Function} func function that returns JSON of movie detail based on given [movieId] of type 'string' 
  */
-const setDetailFunc = (func) => {
+const mountGetDetailFunc = (func) => {
     if (typeof func == "function") getDetailExtFunc = func;
     else getDetailExtFunc = null;
     // console.log(getDetailExtFunc);
@@ -125,7 +131,7 @@ const setDetailFunc = (func) => {
  * 
  * @param {Function} func function that returns JSON of movie credit based on given [movieId] of type 'string' 
  */
-const setCreditFunc = (func) => {
+const mountGetCreditFunc = (func) => {
     if (typeof func == "function") getCreditExtFunc = func;
     else getCreditExtFunc = null;
     // console.log(getCreditExtFunc);
@@ -194,4 +200,9 @@ const getCardContainer = () => $cardContainer;
 
 const emptyCardContainer = () => $cardContainer.innerHTML = "";
 
-export { setCardContainer, getCardContainer, loadInfoContainer, setDetailFunc, setCreditFunc };
+export {
+    getInfoContainer,
+    infoLoader,
+    mountGetDetailFunc,
+    mountGetCreditFunc
+};
