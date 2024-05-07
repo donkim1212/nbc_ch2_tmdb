@@ -1,7 +1,7 @@
 import { getSearchBarContainer, getSearchBar, searchMoviesByTitle, clearCachedList, searchMoviesDetailByMovieId, searchMoviesCreditsByMovieId, mountToggleFunction } from "./search-movie.js";
 import { getSortButtonContainer } from "./search-filter.js";
 import { getCardContainer, mountCardClickEventFunc, mountToggleFunction as mountToggleFuncCard } from "./card.js";
-import { mountGetDetailFunc, mountGetCreditFunc, getInfoContainer, infoLoader } from "./movie-info-loader.js";
+import { mountGetDetailFunc, mountGetCreditFunc, mountToggleFunction as mountToggleFuncInfo, getInfoContainer, infoLoader } from "./movie-info-loader.js";
 import { getReviewContainer, reviewLoader } from "./review.js";
 import { CssClassToggler } from "./simple-toggler.js";
 
@@ -14,6 +14,7 @@ setInterval(clearCachedList, 60000);
 mountCardClickEventFunc(infoLoader, reviewLoader);
 mountToggleFunction(CssClassToggler.forceEnableDefault);
 mountToggleFuncCard(CssClassToggler.toggleElements);
+mountToggleFuncInfo(CssClassToggler.forceEnableDefault);
 const $searchContainer = document.getElementById(SEARCH_CONTAINER_ID);
 const $cardContainer = document.getElementById(CARD_CONTAINER_ID);
 const $infoReviewWrapper = document.getElementById(INFO_REVIEW_WRAPPER_ID);

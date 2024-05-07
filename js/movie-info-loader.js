@@ -7,6 +7,8 @@ const ACTOR_IMG_URL = 'https://image.tmdb.org/t/p/w154';
 
 const $infoContainer = document.createElement('div');
 const $infoLeft = document.createElement('div');
+const $backButton = document.createElement('button');
+$backButton.innerText = "↶뒤로가기";
 const $posterImg = document.createElement('img');
 
 const $infoRight = document.createElement('div');
@@ -62,6 +64,7 @@ $infoRight.appendChild($infoRightDivTop);
 $infoRight.appendChild($infoRightDivMiddle);
 $infoRight.appendChild($infoRightDivMB);
 $infoRight.appendChild($infoRightDivBottom);
+$infoLeft.appendChild($backButton);
 $infoLeft.appendChild($posterImg);
 $infoContainer.appendChild($infoLeft);
 $infoContainer.appendChild($infoRight);
@@ -122,8 +125,8 @@ const infoLoader = async (movieId) => {
  * @param {Function} func function that returns JSON of movie detail based on given [movieId] of type 'string' 
  */
 const mountGetDetailFunc = (func) => {
-    if (typeof func == "function") getDetailExtFunc = func;
-    else getDetailExtFunc = null;
+    if (typeof func == "function") mountedDetailExtFunc = func;
+    else mountedDetailExtFunc = null;
     // console.log(getDetailExtFunc);
 }
 
@@ -132,17 +135,27 @@ const mountGetDetailFunc = (func) => {
  * @param {Function} func function that returns JSON of movie credit based on given [movieId] of type 'string' 
  */
 const mountGetCreditFunc = (func) => {
-    if (typeof func == "function") getCreditExtFunc = func;
-    else getCreditExtFunc = null;
+    if (typeof func == "function") mountedCreditExtFunc = func;
+    else mountedCreditExtFunc = null;
     // console.log(getCreditExtFunc);
 }
 
-let getDetailExtFunc = null;
-let getCreditExtFunc = null;
+const mountToggleFunction = (func) => {
+    mountedToggleFunction = (typeof func == "function") ? func : null;
+    if (mountedToggleFunction != null) {
+        $backButton.addEventListener('click', (e) => {
+            mountedToggleFunction('disabled', true);
+        });
+    }
+}
+
+let mountedDetailExtFunc = null;
+let mountedCreditExtFunc = null;
+let mountedToggleFunction = null;
 
 const getCachedMovieDetail = async (movieId) => {
     try {
-        return getDetailExtFunc ? await getDetailExtFunc(movieId) : await (await fetch(LOCAL_DETAIL))?.json();
+        return mountedDetailExtFunc ? await mountedDetailExtFunc(movieId) : await (await fetch(LOCAL_DETAIL))?.json();
     } catch (err) { // TODO: add case when mounted getDetailExtFunc doesn't fit the requirement
         // catch (err instanceof Error)
         console.log(err);
@@ -159,7 +172,7 @@ const getCachedMovieDetail = async (movieId) => {
 const getCachedMovieCasts = async (movieId) => {
     try {
         // get cached casts list
-        const credit = getCreditExtFunc ? await getCreditExtFunc(movieId) : await (await fetch(LOCAL_CREDIT)).json(); // change this
+        const credit = mountedCreditExtFunc ? await mountedCreditExtFunc(movieId) : await (await fetch(LOCAL_CREDIT)).json(); // change this
         let director = null;
         for (let i = 0; i < credit["crew"]?.length; i++) {
             if (credit["crew"][i]["job"] == "Director") {
@@ -204,5 +217,6 @@ export {
     getInfoContainer,
     infoLoader,
     mountGetDetailFunc,
-    mountGetCreditFunc
+    mountGetCreditFunc,
+    mountToggleFunction
 };

@@ -45,7 +45,22 @@
     margin-right: 20px;
 }
 
+.info-left > button {
+    display:block;
+    position:absolute;
+    border-radius: 10px;
+    border: 1px solid white;
+    background-color: black;
+    padding: 5px;
+}
+
+.info-left > button:hover {
+    background-color: gray;
+    color:black;
+}
+
 .info-left > img {
+    display: block;
     position: relative;
     border-radius: 10px;
     border: 1px solid white;
