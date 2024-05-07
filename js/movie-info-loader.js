@@ -185,10 +185,10 @@ const dummyFunction = async (id) => new Promise((resolve) => {
 
 /**
  * 
- * @param {string} cardContainerId id attribute of the container that will contain movie-info
- * @return found DOM element with the given id, NULL if none.
+ * @param {HTMLElement} cardContariner container that will contain movie-info
+ * @return given DOM element
  */
-const setCardContainer = (cardContainerId) => $cardContainer = document.getElementById(cardContainerId);
+const setCardContainer = (cardContainer) => $cardContainer = cardContainer;
 
 const getCardContainer = () => $cardContainer;
 

@@ -8,14 +8,30 @@ const rgx_Content = /^.{3,50}$/;
 // 2. 리뷰 작성 버튼을 눌러 저장할 때에 Save_Review 함수에 obj_data (이 객체의 내용물은 제일 하단의 saveBtn.addEventListener 메서드에서 확인할 수 있습니다. 현재 id는 test값)
 // 3. 리뷰 추가시 생성되는 태그는 Create_Element 확인이 가능합니다. (구역, 작성자 이름, 리뷰 내용, 삭제 버튼, 수정 버튼 으로 구성.)
 
-//#region Test root & information
-const rootBox = document.querySelector("#test");
+//#region
+let cardContainer = null;
+const rootBox = document.createElement('div'); // document.querySelector("#test");
+rootBox.classList.add('review-container');
 
-const nameBox = document.querySelector("#nameBox");
-const contentBox = document.querySelector("#contentBox");
-const pwBox = document.querySelector("#pwBox");
+const reviewPage = document.createElement('div');
+reviewPage.classList.add('review-page');
+const reviewWriter = document.createElement('div');
 
-const saveBtn = document.querySelector("#saveReview");
+const nameBox = document.createElement('input'); // document.querySelector("#nameBox");
+const contentBox = document.createElement('input'); // document.querySelector("#contentBox");
+const pwBox = document.createElement('input'); // document.querySelector("#pwBox");
+
+const saveBtn = document.createElement('button');
+saveBtn.innerHTML = "작성";
+
+reviewWriter.appendChild(nameBox);
+reviewWriter.appendChild(contentBox);
+reviewWriter.appendChild(pwBox);
+
+reviewWriter.appendChild(saveBtn);
+
+rootBox.appendChild(reviewPage);
+rootBox.appendChild(reviewWriter);
 //#endregion
 
 const Return_Contents = {
@@ -96,16 +112,40 @@ const Load_NewReview = async (obj_Data) => {
   Registration_ButtonEvent(elmt, obj_Data);
 };
 
+const reviewLoader = (id) => {
+  try {
+    saveBtn.addEventListener("click", function () {
+      const obj_Data = {
+        id: id,
+        name: nameBox.value,
+        content: contentBox.value,
+        pw: pwBox.value,
+      };
+      Save_Review(obj_Data);
+    });
+    if (cardContainer) {
+      cardContainer.appendChild(rootBox);
+      All_loadReview(id);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 const All_loadReview = async function (id) {
+  
   const obj_Datas = await Object.keys(window.localStorage).filter((rv) => {
     const data = JSON.parse(localStorage.getItem(rv));
     return data.id == id;
   });
 
+  reviewPage.innerHTML = "";
+
   obj_Datas.forEach(async (obj_Data) => {
     const elmt = await Create_Element();
-    Registration_ButtonEvent(elmt, obj_Data);
-    ReTouch_Text(elmt, obj_Data);
+    const data = JSON.parse(window.localStorage.getItem(obj_Data));
+    Registration_ButtonEvent(elmt, data);
+    ReTouch_Text(elmt, data);
   });
 };
 
@@ -113,7 +153,7 @@ const Registration_ButtonEvent = (elmt, obj_Data) => {
   elmt.Delete.addEventListener("click", () => {
     const answer = prompt("pw를 입력하세요", "pw를 입력해주세요");
 
-    if (answer && obj_Data.pw == answer) {
+    if (answer && obj_Data["pw"] == answer) {
       localStorage.removeItem(obj_Data.key + "");
       elmt.wrap.remove();
       alert("삭제 되었습니다!");
@@ -123,7 +163,7 @@ const Registration_ButtonEvent = (elmt, obj_Data) => {
   });
 
   elmt.Patch.addEventListener("click", () => {
-    const answer = prompt("pw를 입혁하세요", "pw를 입력해주세요");
+    const answer = prompt("pw를 입력하세요", "pw를 입력해주세요");
 
     if (answer && obj_Data.pw == answer) {
       const inf_Prompt = prompt("리뷰 내용을 수정하십시오", obj_Data.content);
@@ -134,8 +174,8 @@ const Registration_ButtonEvent = (elmt, obj_Data) => {
         Return_Contents.Check_Content(obj_Data) &&
         Return_Contents.Check_BadLanguage(obj_Data)
       ) {
-        let patch_data = JSON.parse(localStorage.getItem(obj_Data.key));
-        localStorage.setItem(patch_data.key, JSON.stringify(patch_data));
+        // let patch_data = JSON.parse(localStorage.getItem(obj_Data.key));
+        localStorage.setItem(obj_Data.key, JSON.stringify(obj_Data));
         ReTouch_Text(elmt, obj_Data);
         alert("수정 되었습니다!");
       } else {
@@ -148,20 +188,30 @@ const Registration_ButtonEvent = (elmt, obj_Data) => {
 
 const Create_Element = () => {
   const reviewBox = document.createElement("div");
+  reviewBox.classList.add('review-box');
+  const reviewBoxHeader = document.createElement("div");
+  reviewBoxHeader.classList.add('review-box-header');
   const reviewer = document.createElement("h2");
+  const reviewBoxContent = document.createElement("div");
+  reviewBoxContent.classList.add('review-box-content');
   const reviewContent = document.createElement("h3");
+  const reviewBoxFooter = document.createElement('div');
+  reviewBoxFooter.classList.add('review-box-footer');
   const btn_Delete = document.createElement("button");
   const btn_Patch = document.createElement("button");
 
-  reviewBox.appendChild(reviewer);
-  reviewBox.appendChild(reviewContent);
-  reviewBox.appendChild(btn_Delete);
-  reviewBox.appendChild(btn_Patch);
+  reviewBoxHeader.appendChild(reviewer);
+  reviewBoxContent.appendChild(reviewContent);
+  reviewBoxFooter.appendChild(btn_Delete);
+  reviewBoxFooter.appendChild(btn_Patch);
+  reviewBox.appendChild(reviewBoxHeader);
+  reviewBox.appendChild(reviewBoxContent);
+  reviewBox.appendChild(reviewBoxFooter);
 
   btn_Delete.innerHTML = "삭제";
   btn_Patch.innerHTML = "수정";
 
-  rootBox.appendChild(reviewBox);
+  reviewPage.appendChild(reviewBox);
 
   const elmt = {
     wrap: reviewBox,
@@ -174,34 +224,31 @@ const Create_Element = () => {
   return elmt;
 };
 
-const ReTouch_Text = (elmt, obj_Data) => {
-  elmt.reviewer.innerHTML = obj_Data.name;
-  elmt.reviewContent.innerHTML = obj_Data.content;
+const ReTouch_Text = async (elmt, obj_Data) => {
+  // const data = JSON.parse(window.localStorage.getItem(obj_Data));
+  if (obj_Data) {
+    elmt.reviewer.innerHTML = obj_Data["name"];
+    elmt.reviewContent.innerHTML = obj_Data["content"];
+  }
 };
 
-saveBtn.addEventListener("click", function () {
-  const obj_Data = {
-    id: "255",
-    name: nameBox.value,
-    content: contentBox.value,
-    pw: pwBox.value,
-  };
-  Save_Review(obj_Data);
-});
+
+
+const setCardContainer = (container) => cardContainer = container;
 
 //#region Initialization for testing
 
-localStorage.clear();
+// localStorage.clear();
 
 // Test data input
-let obj = { id: "255", name: "d", content: "내용입니다", pw: "1234" };
-Save_Review(obj);
-let obj2 = { id: "255", name: "상우", content: "내용입니다", pw: "4321" };
-Save_Review(obj2);
+// let obj = { id: "255", name: "d", content: "내용입니다", pw: "1234" };
+// Save_Review(obj);
+// let obj2 = { id: "255", name: "상우", content: "내용입니다", pw: "4321" };
+// Save_Review(obj2);
 
 //Load data
 // All_loadReview(255); // !!! Run only once at startup
 
 //#endregion
 
-export { All_loadReview, Save_Review };
+export { reviewLoader, setCardContainer };

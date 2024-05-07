@@ -1,5 +1,3 @@
-import { loadInfoContainer } from './movie-info-loader.js';
-
 let $cardContainer = null;
 
 const setCardContainer = ($container) => {
@@ -39,9 +37,10 @@ const createCard = (image, title, overview, rating, id) => {
     $overviewP.textContent = overview;
     $ratingP.textContent = rating;
 
-    $cardHolder.addEventListener("click", (e) => {
+    $cardHolder.addEventListener("click", async (e) => {
         // alert(`영화 id: ${id}`);
-        loadInfoContainer(id);
+        if (getInfoLoader) await getInfoLoader(id);
+        if (getReviewLoader) getReviewLoader(id);
     });
 
     $cardFront.appendChild($posterImg);
@@ -67,4 +66,15 @@ const emptyCards = () => {
   if ($cardContainer) $cardContainer.innerHTML = "";
 };
 
-export { setCardContainer, getCardContainer, createCard, addCard, emptyCards };
+const mountInfoLoader = (func) => {
+  getInfoLoader = (typeof func != "function") ? null : func;
+}
+
+const mountReviewLoader = (func) => {
+  getReviewLoader = (typeof func != "function") ? null : func;
+}
+
+let getInfoLoader = null;
+let getReviewLoader = null;
+
+export { setCardContainer, getCardContainer, createCard, addCard, emptyCards, mountInfoLoader, mountReviewLoader };
