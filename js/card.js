@@ -1,5 +1,6 @@
 const $cardContainer = document.createElement('div');
 $cardContainer.setAttribute('id', 'card-container-01');
+let $targetContainer = null;
 
 const getCardContainer = () => $cardContainer;
 
@@ -17,14 +18,11 @@ const createCard = (image, title, overview, rating, id) => {
     $cardHolder.classList.add('cardholder');
     $cardHolder.setAttribute('id', id);
     $cardHolder.addEventListener("click", async function (e) {
-      // if ($targetElement != null) {
-      //   $cardContainer.classList.toggle('disabled');
-      //   $targetElement.classList.toggle('disabled');
-      // }
-      for (let i = 0; i < cardClickEventFunctions.length; i++) {
-        if (typeof cardClickEventFunctions[i] != "function") continue;
-        await cardClickEventFunctions[i](id);
+      for (let i = 0; i < mountedCardClickEventFunctions.length; i++) {
+        if (typeof mountedCardClickEventFunctions[i] != "function") continue;
+        await mountedCardClickEventFunctions[i](id);
       }
+      if (mountedToggleFunction != null) mountedToggleFunction('disabled');
     });
     const $card = document.createElement('div');
     $card.classList.add('card');
@@ -56,14 +54,20 @@ const createCard = (image, title, overview, rating, id) => {
     return $cardHolder;
 }
 
-let cardClickEventFunctions = null;
+let mountedCardClickEventFunctions = null;
+let mountedToggleFunction = null;
 
 /**
  * Set list of functions to run when clicking a movie card.
  * @param  {...function} functions will run in order
  */
-const setCardClickEventFunc = (...functions) => {
-  cardClickEventFunctions = functions;
+const mountCardClickEventFunc = (...functions) => {
+  mountedCardClickEventFunctions = functions;
+}
+
+const setTargetContainer = target => $targetContainer = target;
+const mountToggleFunction = (func) => {
+  mountedToggleFunction = (typeof func == "function") ? func : null;
 }
 
 const addCard = (image, title, overview, rating, id) => {
@@ -90,11 +94,13 @@ let getInfoLoader = null;
 let getReviewLoader = null;
 
 export {
+  // setTargetContainer,
   getCardContainer,
-  setCardClickEventFunc,
   createCard,
   addCard,
   emptyCards,
   mountInfoLoader,
-  mountReviewLoader
+  mountReviewLoader,
+  mountCardClickEventFunc,
+  mountToggleFunction
 };

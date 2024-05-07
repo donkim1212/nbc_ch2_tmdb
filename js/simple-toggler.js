@@ -1,50 +1,60 @@
 let $elementA = null;
 let $elementB = null;
 
-const setElementA = (element) => $elementA = element;
-const setElementB = (element) => $elementB = element;
-
-const setElements = (elementA, elementB) => {
-    try {
-        if (elementA?.nodeType == Node.ELEMENT_NODE) $elementA = elementA;
-        if (elementB?.nodeType == Node.ELEMENT_NODE) $elementB = elementB;
-    } catch (err) {
-        console.log(err);
-        $elementA = null;
-        $elementB = null;
-    }
-}
-
-const toggleElements = (classToToggle) => {
-    if (!$elementA || !$elementB) return;
-    $elementA.classList.toggle(classToToggle);
-    $elementB.classList.toggle(classToToggle);
-}
-
-const toggleEnabler = (classToEnable, targetToEnable) => {
-    if (!$elementA || !$elementB) return;
-    switch (targetToEnable) {
-        case ('A' || 'a' || $elementA): {
-            toggleEnable(classToEnable, false)
-            break;
+const CssClassToggler = {
+    setElements: (a, b) => {
+        try {
+            $elementA = (a?.nodeType == Node.ELEMENT_NODE) ? a : null;
+            $elementB = (b?.nodeType == Node.ELEMENT_NODE) ? b : null;
+        } catch (err) {
+            console.log(err);
+            $elementA = null;
+            $elementB = null;
         }
-        case ('B' || 'b' || $elementB): {
-            toggleEnable(classToEnable, true);
-            break;
-        }
-    }
-}
+    },
 
-const toggleEnable = (classToEnable, reversed) => {
-    (reversed ? elementB : elementA).classList.add(classToEnable);
-    // if (!elementB.classList.contains(classToToggle))
-    (reversed ? elementA : elementB).classList.remove(classToEnable); //
+    toggleElements: (classToToggle, ...elements) => {
+        try {
+            if (elements.length == 0) {
+                elements = [ $elementA, $elementB ];
+            }
+            elements.forEach((element) => {
+                element.classList.toggle(classToToggle);
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
+    /**
+     * 
+     * @param {string} cssClass css class name to be added/removed
+     * @param {HTMLElement} addTo element to add the css class to
+     * @param {HTMLElement} removeFrom element to remove the css class from
+     * @param {boolean} reverse used to swap add/remove. This can be ignored.
+     * @returns 
+     */
+    forceEnable: (cssClass, addTo, removeFrom) => {
+        try {
+            if (addTo == null || removeFrom == null) return;
+            if (!(addTo.nodeType == Node.ELEMENT_NODE)) return;
+            if (!(removeFrom.nodeType == Node.ELEMENT_NODE)) return;
+            addTo.classList.add(cssClass);
+            removeFrom.classList.remove(cssClass);
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
+    forceEnableDefault: (cssClass, reverse) => {
+        CssClassToggler.forceEnable(
+            cssClass,
+            reverse ? $elementB : $elementA,
+            reverse ? $elementA : $elementB
+        );
+    }
 }
 
 export {
-    // setElementA,
-    // setElementB,
-    setElements,
-    toggleElements,
-    toggleEnabler
+    CssClassToggler
 };

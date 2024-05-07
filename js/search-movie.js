@@ -16,7 +16,6 @@ $searchBar.addEventListener("keypress", function (e) {
 });
 const $searchButton = document.createElement('button');
 $searchButton.addEventListener("click", function () {
-    console.log("search()");
     search();
 });
 const $buttonLabel = document.createElement('label');
@@ -30,7 +29,15 @@ const getSearchBarContainer = () => $searchBarContainer;
 const getSearchBar = () => $searchBar;
 const getSearchButton = () => $searchButton;
 
+let mountedToggleFunction = null;
+
+const mountToggleFunction = (func) => {
+    if (typeof func != "function") return;
+    mountedToggleFunction = func;
+}
+
 function search() {
+    if (mountedToggleFunction != null) mountedToggleFunction('disabled', true);
     let searched = $searchBar.value;
     searchMoviesByTitle(searched);
 }
@@ -77,5 +84,6 @@ export {
     searchMoviesByTitle,
     searchMoviesCreditsByMovieId,
     searchMoviesDetailByMovieId,
-    clearCachedList
+    clearCachedList,
+    mountToggleFunction
 };
