@@ -16,7 +16,7 @@ $sortMenuB.innerText = '평점 내림차순';
 $sortMenuB.addEventListener("click", function () {
   searchByFilter(false);
 });
-const $sortMenuC = documnet.createElement('a');
+const $sortMenuC = document.createElement('a');
 $sortMenuC.setAttribute('href', '#none');
 $sortMenuC.innerText = '제목순';
 $sortMenuC.addEventListener("click", function () {
