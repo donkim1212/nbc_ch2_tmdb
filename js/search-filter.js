@@ -6,15 +6,20 @@ const $sortMenu = document.createElement('div');
 $sortMenu.classList.add('subMenu');
 const $sortMenuA = document.createElement('a');
 $sortMenuA.setAttribute('href', '#none');
-$sortMenuA.innerText = '오름차순';
+$sortMenuA.innerText = '평점 오름차순';
 $sortMenuA.addEventListener("click", function () {
   searchByFilter(true);
 });
 const $sortMenuB = document.createElement('a');
 $sortMenuB.setAttribute('href', '#none');
-$sortMenuB.innerText = '내림차순';
+$sortMenuB.innerText = '평점 내림차순';
 $sortMenuB.addEventListener("click", function () {
   searchByFilter(false);
+});
+$sortMenuC.setAttribute('href', '#none');
+$sortMenuC.innerText = '제목순';
+$sortMenuC.addEventListener("click", function () {
+  searchByFilter2();
 });
 
 $sortMenu.appendChild($sortMenuA);
@@ -35,7 +40,7 @@ function searchByFilter(asc){
         
        let aRating = Number(a.querySelector("#rating-id").textContent);
        let bRating = Number(b.querySelector("#rating-id").textContent);
-      
+
       if(aRating>bRating){
 
         return asc ? 1 : -1
@@ -52,6 +57,8 @@ function searchByFilter(asc){
         return asc ? -1 : 1;
 
        }
+
+
     }) 
 
     cardContainer.innerHTML='';
@@ -63,11 +70,68 @@ function searchByFilter(asc){
    
 }
 
+
+function searchByFilter2(){
+    
+ 
+  let cardContainer = document.getElementById("card-container-01") // 카드정보 = cardcontariner id = card-container-01
+  let arr = cardContainer.children;
+  let arr2 = Array.from(arr)
+ 
+  if (arr.length <= 0) return;
+  arr2.sort((c,d) => { 
+      
+     let cName = c.querySelector("h1").innerText.toLowerCase();
+     let dName = d.querySelector("h1").innerText.toLowerCase();
+
+    for(let i=0; i<Math.min(cName.length,dName.length); i++)
+      {
+      
+     if(cName.charCodeAt(i) < dName.charCodeAt(i))
+      {
+        return -1;
+      }
+
+
+       if(cName.charCodeAt(i) > dName.charCodeAt(i))
+        {
+          return 1;
+        } 
+    }
+
+     if(cName.length == dName.length)
+      {
+        return 0;
+      }
+      
+      return cName.length > dName.length ? 1 : -1
+
+  }) 
+
+  cardContainer.innerHTML='';
+
+  for(let i=0;i<arr2.length;i++) {
+     
+      cardContainer.appendChild(arr2[i]);
+  }
+ 
+}
+
+
+
+
+function setDropdown(elementId){
+
+    if(!(typeof elementId == "string")) return;
+         
+    $dropDown = document.getElementById(elementId);
+
+}
+
+
 export{
   getSortButtonContainer
 };
-
-
 
 
 
