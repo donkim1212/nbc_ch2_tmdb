@@ -24,7 +24,7 @@ body {
     /* translate -50% of the h1 element */
 }
 
-.poster-container {
+.card-container {
     background-color: transparent;
     width: 100%;
     height: auto;
@@ -32,6 +32,18 @@ body {
     /* padding: 0px 0px 0px 20px; */
 
     text-align: center;
+}
+
+.info-review-wrapper {
+    /* display: none; */
+    transition-property: display;
+    transition-duration: 1s;
+}
+
+*.disabled {
+    display: none;
+    transition-property: display;
+    transition-duration: 1s;
 }
 
 .search-container {
@@ -46,14 +58,17 @@ body {
     /* width: fit-content; */
 }
 
-.search-bar-container > button {
+.search-container * > button {
     border: none;
     border-radius: 5px;
     color:white;
     background-color: coral;
 
-    width:50px;
-    height: 24px;
+    width: inline;
+    height: fit-content;
+    
+    padding: 2px 4px 2px 4px;
+    margin-left: 3px;
 }
 
 .search-bar-container > input {
@@ -136,18 +151,6 @@ body {
 .dropDown:hover 뒤에 무엇이든 이어지면 명령을 수행하는 역할이 된다.
 즉, 자식요소를 어떻게 할지 변경하는 정의하는 의미라고 생각하면 된다.
 */
-
-.dropDown-btn {
-    /*부모의 길이를 상속 받음, 유동적 길이 변경 가능*/
-    border: none;
-    border-radius: 5px;
-    color:white;
-    background-color: coral;
-
-    width:50px;
-    height: 24px;
-    
-}
 
 .subMenu {
     position: absolute;

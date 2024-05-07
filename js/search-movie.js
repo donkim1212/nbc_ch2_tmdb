@@ -4,6 +4,37 @@ import { fetchMovieCredits, fetchMovieDetail, fetchMoviesList } from "./fetch-mo
 
 const IMG_URL = "https://image.tmdb.org/t/p/w300";
 
+const $searchBarContainer = document.createElement('div');
+$searchBarContainer.classList.add('search-bar-container');
+const $searchBar = document.createElement('input');
+$searchBar.setAttribute('type', 'text');
+$searchBar.setAttribute('placeholder', '여기에 제목을 입력하세요.');
+$searchBar.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        search();
+    }
+});
+const $searchButton = document.createElement('button');
+$searchButton.addEventListener("click", function () {
+    console.log("search()");
+    search();
+});
+const $buttonLabel = document.createElement('label');
+$buttonLabel.innerText = '검색';
+
+$searchButton.appendChild($buttonLabel);
+$searchBarContainer.appendChild($searchBar);
+$searchBarContainer.appendChild($searchButton);
+
+const getSearchBarContainer = () => $searchBarContainer;
+const getSearchBar = () => $searchBar;
+const getSearchButton = () => $searchButton;
+
+function search() {
+    let searched = $searchBar.value;
+    searchMoviesByTitle(searched);
+}
+
 const searchMoviesByTitle = async (title) => {
     title = title.toLowerCase();
 
@@ -39,4 +70,12 @@ const clearCachedList = () => {
   // console.log("cleared cachedList");
 };
 
-export { searchMoviesByTitle, searchMoviesCreditsByMovieId, searchMoviesDetailByMovieId, clearCachedList};
+export {
+    getSearchBarContainer,
+    getSearchBar,
+    getSearchButton,
+    searchMoviesByTitle,
+    searchMoviesCreditsByMovieId,
+    searchMoviesDetailByMovieId,
+    clearCachedList
+};

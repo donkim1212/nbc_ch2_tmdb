@@ -10,28 +10,28 @@ const rgx_Content = /^.{3,50}$/;
 
 //#region
 let cardContainer = null;
-const rootBox = document.createElement('div'); // document.querySelector("#test");
-rootBox.classList.add('review-container');
+const $rootBox = document.createElement('div'); // document.querySelector("#test");
+$rootBox.classList.add('review-container');
 
-const reviewPage = document.createElement('div');
-reviewPage.classList.add('review-page');
-const reviewWriter = document.createElement('div');
+const $reviewPage = document.createElement('div');
+$reviewPage.classList.add('review-page');
+const $reviewWriter = document.createElement('div');
 
-const nameBox = document.createElement('input'); // document.querySelector("#nameBox");
-const contentBox = document.createElement('input'); // document.querySelector("#contentBox");
-const pwBox = document.createElement('input'); // document.querySelector("#pwBox");
+const $nameBox = document.createElement('input'); // document.querySelector("#nameBox");
+const $contentBox = document.createElement('input'); // document.querySelector("#contentBox");
+const $pwBox = document.createElement('input'); // document.querySelector("#pwBox");
 
-const saveBtn = document.createElement('button');
-saveBtn.innerHTML = "작성";
+const $saveBtn = document.createElement('button');
+$saveBtn.innerHTML = "작성";
 
-reviewWriter.appendChild(nameBox);
-reviewWriter.appendChild(contentBox);
-reviewWriter.appendChild(pwBox);
+$reviewWriter.appendChild($nameBox);
+$reviewWriter.appendChild($contentBox);
+$reviewWriter.appendChild($pwBox);
 
-reviewWriter.appendChild(saveBtn);
+$reviewWriter.appendChild($saveBtn);
 
-rootBox.appendChild(reviewPage);
-rootBox.appendChild(reviewWriter);
+$rootBox.appendChild($reviewPage);
+$rootBox.appendChild($reviewWriter);
 //#endregion
 
 const Return_Contents = {
@@ -97,9 +97,9 @@ const Save_Review = async function (obj_Data) {
     localStorage.setItem(obj_Data.key, value);
     await Load_NewReview(obj_Data);
 
-    nameBox.value = "";
-    contentBox.value = "";
-    pwBox.value = "";
+    $nameBox.value = "";
+    $contentBox.value = "";
+    $pwBox.value = "";
     alert("작성 완료!");
   }
 };
@@ -112,21 +112,25 @@ const Load_NewReview = async (obj_Data) => {
   Registration_ButtonEvent(elmt, obj_Data);
 };
 
+const getReviewContainer = () => $rootBox;
+
+/**
+ * 
+ * @param {*} id 
+ * @returns 
+ */
 const reviewLoader = (id) => {
   try {
-    saveBtn.addEventListener("click", function () {
+    $saveBtn.addEventListener("click", function () {
       const obj_Data = {
         id: id,
-        name: nameBox.value,
-        content: contentBox.value,
-        pw: pwBox.value,
+        name: $nameBox.value,
+        content: $contentBox.value,
+        pw: $pwBox.value,
       };
       Save_Review(obj_Data);
     });
-    if (cardContainer) {
-      cardContainer.appendChild(rootBox);
-      All_loadReview(id);
-    }
+    All_loadReview(id);
   } catch (err) {
     console.log(err);
   }
@@ -139,7 +143,7 @@ const All_loadReview = async function (id) {
     return data.id == id;
   });
 
-  reviewPage.innerHTML = "";
+  $reviewPage.innerHTML = "";
 
   obj_Datas.forEach(async (obj_Data) => {
     const elmt = await Create_Element();
@@ -211,7 +215,7 @@ const Create_Element = () => {
   btn_Delete.innerHTML = "삭제";
   btn_Patch.innerHTML = "수정";
 
-  reviewPage.appendChild(reviewBox);
+  $reviewPage.appendChild(reviewBox);
 
   const elmt = {
     wrap: reviewBox,
@@ -251,4 +255,8 @@ const setCardContainer = (container) => cardContainer = container;
 
 //#endregion
 
-export { reviewLoader, setCardContainer };
+export {
+  getReviewContainer,
+  reviewLoader,
+  setCardContainer
+};

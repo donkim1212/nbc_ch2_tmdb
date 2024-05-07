@@ -1,6 +1,33 @@
+const $sortBtnContainer = document.createElement('div');
+$sortBtnContainer.classList.add('dropDown');
+const $sortBtn = document.createElement('button');
+$sortBtn.innerText = '정렬';
+const $sortMenu = document.createElement('div');
+$sortMenu.classList.add('subMenu');
+const $sortMenuA = document.createElement('a');
+$sortMenuA.setAttribute('href', '#none');
+$sortMenuA.innerText = '평점 오름차순';
+$sortMenuA.addEventListener("click", function () {
+  searchByFilter(true);
+});
+const $sortMenuB = document.createElement('a');
+$sortMenuB.setAttribute('href', '#none');
+$sortMenuB.innerText = '평점 내림차순';
+$sortMenuB.addEventListener("click", function () {
+  searchByFilter(false);
+});
+$sortMenuC.setAttribute('href', '#none');
+$sortMenuC.innerText = '제목순';
+$sortMenuC.addEventListener("click", function () {
+  searchByFilter2();
+});
 
-let $dropDown = null;
+$sortMenu.appendChild($sortMenuA);
+$sortMenu.appendChild($sortMenuB);
+$sortBtnContainer.appendChild($sortBtn);
+$sortBtnContainer.appendChild($sortMenu);
 
+const getSortButtonContainer = () => $sortBtnContainer;
 
 function searchByFilter(asc){
     
@@ -42,10 +69,6 @@ function searchByFilter(asc){
     }
    
 }
-
-
-
-
 
 
 function searchByFilter2(){
@@ -106,32 +129,9 @@ function setDropdown(elementId){
 }
 
 
-const $sor1btn = document.getElementById("sort-a1");
-const $sor2btn = document.getElementById("sort-a2");
-const $sor3btn = document.getElementById("sort-a3")
-
-$sor1btn.addEventListener("click", function () {
-    searchByFilter(true);
-
-  });
-
-
-  $sor2btn.addEventListener("click", function () {
-    searchByFilter(false);
-
-  });
-
-
-  $sor3btn.addEventListener("click", function () {
-    searchByFilter2();
-
-  });
-
-
-
-export{searchByFilter,searchByFilter2}
-
-
+export{
+  getSortButtonContainer
+};
 
 
 
