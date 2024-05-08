@@ -22,16 +22,38 @@ body {
     margin: 0;
     transform: translate(-50%, -50%);
     /* translate -50% of the h1 element */
+
+    font-size: min(5vw, 42px);
 }
 
-.poster-container {
+.card-container {
     background-color: transparent;
     width: 100%;
-    height: auto;
+    height: fit-content;
+    overflow-y: hidden;
 
     /* padding: 0px 0px 0px 20px; */
-
     text-align: center;
+    visibility: visible;
+    opacity: 100%;
+    transition: all 0.5s;
+}
+
+.info-review-wrapper {
+    /* display: none; */
+    position:absolute;
+    visibility: visible;
+    opacity:100%;
+    /* transition-property: display; */
+    transition: all 0.5s;
+}
+
+*.disabled {
+    /* display: none; */
+    visibility: hidden;
+    height: 0vh;
+    opacity: 0%;
+    /* transition-property: display; */
 }
 
 .search-container {
@@ -46,14 +68,22 @@ body {
     /* width: fit-content; */
 }
 
-.search-bar-container > button {
+.search-container * > button {
     border: none;
     border-radius: 5px;
     color:white;
     background-color: coral;
 
-    width:50px;
-    height: 24px;
+    width: inline;
+    height: fit-content;
+    
+    padding: 2px 4px 2px 4px;
+    margin-left: 3px;
+}
+
+.search-container * > button:hover {
+    background-color: orange;
+    color: black;
 }
 
 .search-bar-container > input {
@@ -120,4 +150,44 @@ body {
     background-color: black;
     color:white;
     transform: rotateY(180deg);
+}
+
+
+.dropDown {
+    display: inline-block;
+    /*width: 200px 처럼 사용자가 직접 너비를 지정할 수도 있다.*/
+}
+.dropDown:hover .subMenu {
+    display: block;
+}
+/*
+.dropDown:hover {} 까지만 하면
+.dropDown 자체의 디자인을 변경하게 된다.
+.dropDown:hover 뒤에 무엇이든 이어지면 명령을 수행하는 역할이 된다.
+즉, 자식요소를 어떻게 할지 변경하는 정의하는 의미라고 생각하면 된다.
+*/
+
+.subMenu {
+    position: absolute;
+    display: none; /*처음에 안보이게*/
+    width: inherit;
+    border: 1px solid #eee;
+    box-shadow: 0 0 10px rgba(0,0,0,0.17);
+    background-color: rgb(0, 0, 0);
+    z-index: 10;
+}
+
+.subMenu a {
+    display: block; /*a 태그는 가로배치 이므로 세로배치로 변경*/
+    color:white;
+    padding: 7px;
+    text-align: center;
+}
+
+.subMenu a:hover {
+    background: #eee;
+}
+
+.empty-space {
+    height: 300px;
 }
