@@ -49,6 +49,11 @@
 
 .info-right {
     display: block;
+    width:100vw;
+}
+
+.info-right .info-rm .info-rm-overview {
+    width: 95vw;
 }
 
 .info-right .info-rt * > button {
@@ -58,6 +63,11 @@
 .info-right .info-rb {
     overflow-x: scroll;
     height:fit-content;
+    width:90vw;
+
+    position: relative;
+    left:46%;
+    transform:translate(-50%, 0);
 }
 
 .info-rb .info-rb-grid {
@@ -92,7 +102,11 @@
 
 .review-page {
     overflow-y: scroll;
+    position: relative;
+    left:46%;
+    transform: translate(-50%, 0);
     height: 30vh;
+    width: 90vw;
 }
 
 .review-box {
