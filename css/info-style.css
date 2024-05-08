@@ -62,13 +62,16 @@
 .info-left > img {
     display: block;
     position: relative;
+    width:18vw;
+    min-width: 250px;
+    max-width: 350px;
     border-radius: 10px;
     border: 1px solid white;
     top: 50%;
     transform: translate(0, -50%);
 }
 
-.info-right {
+.info-right * {
     scrollbar-color: white black;
     scrollbar-width: thin;
 }
@@ -122,19 +125,26 @@
     grid-area: e;
     /* background-color: orangered; */
     overflow-x: scroll;
-    height: 254px;
+    /* height: 254px; */
+    height:fit-content;
 }
 
 .info-rb .info-rb-grid {
     width: 1em;
     display: grid;
-    grid-auto-columns:min(154px);
+    grid-auto-columns: min-content;
     grid-auto-flow: column;
     gap: 5px;
 }
 
-.info-rb-grid > div {
-    /* width: fit-content; */
+.info-rb-grid div {
+    width: fit-content;
     border-radius: 10px;
     overflow: hidden;
+}
+
+.info-rb-grid * > img {
+    width: 10vw;
+    max-width: 154px;
+    min-width: 100px;
 }

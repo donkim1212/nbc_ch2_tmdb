@@ -21,27 +21,36 @@
     scrollbar-color: white black;
 
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    /* grid-template-rows: 100px; */
     gap: 5px;
-    /* grid-auto-flow: column; */
+    /* grid-auto-flow: column dense; */
 }
 
 .review-box {
     border-radius: 5px;
     border: 1px solid white;
+    position:relative;
+    display:grid;
+    grid-template-areas: 
+    "a"
+    "b"
+    "c";
     /* float: left; */
-    height: 200px;
+    height: 150px;
 }
 
 .review-box * {
     padding: 0px;
     margin: 0px;
+    gap:0px;
     /* width: 12vw; */
 }
 
 .review-box-header {
     grid-area: a;
     height: fit-content;
+    display: block;
     border-bottom: 1px solid white;
 }
 
@@ -51,19 +60,36 @@
 
 .review-box-content {
     grid-area: b;
+    display: block;
     overflow-y: scroll;
-    height: 50%;
+    /* max-height: 1fr; */
 }
 
 .review-box-footer {
     grid-area: c;
+    display: block;
     height: fit-content;
     position: absolute;
-    bottom: 100%;
-    transform: translate(50%, -50%);
+    bottom:0%;
+    left:50%;
+    transform: translate(-50%, 0);
 }
 
 .review-box-footer > button {
     background-color: black;
     color:white;
+}
+
+.review-writer {
+    display: block;
+    position: absolute;
+    left:50%;
+    transform: translate(-50%, 0);
+    margin-top: 10px;
+}
+
+.review-writer > button {
+    margin-left: 3px;
+    border-radius: 5px;
+    border: 1px solid white;
 }

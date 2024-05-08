@@ -71,6 +71,11 @@ body {
     margin-left: 3px;
 }
 
+.search-container * > button:hover {
+    background-color: orange;
+    color: black;
+}
+
 .search-bar-container > input {
     background-color: black;
     /* width: 15%; */
@@ -171,4 +176,8 @@ body {
 
 .subMenu a:hover {
     background: #eee;
+}
+
+.empty-space {
+    height: 300px;
 }
