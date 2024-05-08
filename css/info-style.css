@@ -1,31 +1,14 @@
 .info-container {
-    /* adjust width by ratio somehow */
-    /* height: 1000px; */
     position: relative;
     width: 50vw;
-    /* max-width: 768px; */
-    /* float: center; */
     left: 50vw;
     transform: translate(-50%, 0);
-    padding: 10px 10px 10px 10px;
-    /* margin: 0 auto; */
-
-    /* grid-template-columns: auto 1fr; */
     
-    /* padding: 10px 10px 10px 10px; */
-    /* background-color: white; */
-    /* right:50%; */
+    padding: 10px 10px 10px 10px;
+    
     display: grid;
     column-gap: 10px;
     grid-template-areas: 
-    /* "a a a b b b b b b b"
-    "a a a b b b b b b b"
-    "a a a c c c c c c c"
-    "a a a c c c c c c c"
-    "a a a c c c c c c c"
-    "a a a d d d d d d d"
-    "a a a d d d d d d d"
-    "a a a d d d d d d d"; */
     "a b"
     "a c"
     "a d"

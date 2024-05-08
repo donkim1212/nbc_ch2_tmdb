@@ -6,13 +6,13 @@ const $sortMenu = document.createElement('div');
 $sortMenu.classList.add('subMenu');
 const $sortMenuA = document.createElement('a');
 $sortMenuA.setAttribute('href', '#none');
-$sortMenuA.innerText = '평점 오름차순';
+$sortMenuA.innerText = '평점 낮은순';
 $sortMenuA.addEventListener("click", function () {
   searchByFilter(true);
 });
 const $sortMenuB = document.createElement('a');
 $sortMenuB.setAttribute('href', '#none');
-$sortMenuB.innerText = '평점 내림차순';
+$sortMenuB.innerText = '평점 높은순';
 $sortMenuB.addEventListener("click", function () {
   searchByFilter(false);
 });
