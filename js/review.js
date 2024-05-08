@@ -16,10 +16,14 @@ $rootBox.classList.add('review-container');
 const $reviewPage = document.createElement('div');
 $reviewPage.classList.add('review-page');
 const $reviewWriter = document.createElement('div');
+$reviewWriter.classList.add('review-writer');
 
 const $nameBox = document.createElement('input'); // document.querySelector("#nameBox");
+$nameBox.setAttribute('placeholder', "이름(1~8자)");
 const $contentBox = document.createElement('input'); // document.querySelector("#contentBox");
+$contentBox.setAttribute('placeholder', "내용(3~50자)");
 const $pwBox = document.createElement('input'); // document.querySelector("#pwBox");
+$pwBox.setAttribute('placeholder', "비밀번호(4~8자리 숫자)");
 
 const $saveBtn = document.createElement('button');
 $saveBtn.innerHTML = "작성";
