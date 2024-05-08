@@ -1,7 +1,10 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Dongle&family=Jua&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@200;600&display=swap');
+
 .review-container {
     margin: 0;
     color: white;
-    min-width: 1024px;
 }
 
 .review-container * {
@@ -10,11 +13,13 @@
 
 .review-page {
     position:relative;
+    height: 300px;
+    width: min(1024px, 50vw);
+    
     padding: 10px;
     border-radius: 10px;
     border: 1px solid white;
-    height: 300px;
-    width: 50vw;
+
     /* left: 50%; */
     transform: translate(25vw, 0);
     overflow-y: scroll;
@@ -31,13 +36,14 @@
     border-radius: 5px;
     border: 1px solid white;
     position:relative;
-    display:grid;
-    grid-template-areas: 
+    /* display:grid; */
+    /* grid-template-areas: 
     "a"
     "b"
-    "c";
+    "c"; */
     /* float: left; */
     height: 150px;
+    overflow: hidden;
 }
 
 .review-box * {
@@ -48,36 +54,58 @@
 }
 
 .review-box-header {
-    grid-area: a;
+    /* grid-area: a; */
     height: fit-content;
-    display: block;
+    max-height: fit-content;
+    width: 100%;
+
+    font-size: max(20px, min(35px, 1.5vw));
+    font-family: "IBM Plex Sans KR", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    
+    text-align: center;
+    display: inline-block;
     border-bottom: 1px solid white;
 }
 
-.review-box-header > h2 {
+/* .review-box-header > h2 {
     font-size: 1.75vw;
-}
+    font-style: bold;
+} */
 
 .review-box-content {
-    grid-area: b;
+    /* grid-area: b; */
     display: block;
+    position: relative;
     overflow-y: scroll;
-    /* max-height: 1fr; */
+
+    font-family: "IBM Plex Sans KR", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+
+    padding: 1vw;
+    max-height: calc();
 }
 
 .review-box-footer {
-    grid-area: c;
+    /* grid-area: c; */
     display: block;
     height: fit-content;
     position: absolute;
+    background-color: rgb(20, 20, 20);
     bottom:0%;
-    left:50%;
-    transform: translate(-50%, 0);
+    width: 100%;
+    text-align: center;
+    /* left:50%;
+    transform: translate(-50%, 0); */
 }
 
 .review-box-footer > button {
+    display: inline;
     background-color: black;
     color:white;
+    padding: 1px 3px 0px 3px;
 }
 
 .review-writer {

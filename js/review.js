@@ -197,9 +197,11 @@ const Registration_ButtonEvent = (elmt, obj_Data) => {
 const Create_Element = () => {
   const reviewBox = document.createElement("div");
   reviewBox.classList.add('review-box');
-  const reviewBoxHeader = document.createElement("div");
-  reviewBoxHeader.classList.add('review-box-header');
-  const reviewer = document.createElement("h2");
+  // const reviewBoxHeader = document.createElement("div");
+  // reviewBoxHeader.classList.add('review-box-header');
+  // const reviewer = document.createElement("h2");
+  const reviewer = document.createElement("div");
+  reviewer.classList.add('review-box-header');
   const reviewBoxContent = document.createElement("div");
   reviewBoxContent.classList.add('review-box-content');
   const reviewContent = document.createElement("h3");
@@ -208,11 +210,12 @@ const Create_Element = () => {
   const btn_Delete = document.createElement("button");
   const btn_Patch = document.createElement("button");
 
-  reviewBoxHeader.appendChild(reviewer);
+  // reviewBoxHeader.appendChild(reviewer);
   reviewBoxContent.appendChild(reviewContent);
   reviewBoxFooter.appendChild(btn_Delete);
   reviewBoxFooter.appendChild(btn_Patch);
-  reviewBox.appendChild(reviewBoxHeader);
+  // reviewBox.appendChild(reviewBoxHeader);
+  reviewBox.appendChild(reviewer);
   reviewBox.appendChild(reviewBoxContent);
   reviewBox.appendChild(reviewBoxFooter);
 
