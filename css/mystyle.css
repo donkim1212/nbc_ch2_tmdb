@@ -29,23 +29,31 @@ body {
 .card-container {
     background-color: transparent;
     width: 100%;
-    height: auto;
+    height: fit-content;
+    overflow-y: hidden;
 
     /* padding: 0px 0px 0px 20px; */
-
     text-align: center;
+    visibility: visible;
+    opacity: 100%;
+    transition: all 0.5s;
 }
 
 .info-review-wrapper {
     /* display: none; */
-    transition-property: display;
-    transition-duration: 1s;
+    position:absolute;
+    visibility: visible;
+    opacity:100%;
+    /* transition-property: display; */
+    transition: all 0.5s;
 }
 
 *.disabled {
-    display: none;
-    transition-property: display;
-    transition-duration: 1s;
+    /* display: none; */
+    visibility: hidden;
+    height: 0vh;
+    opacity: 0%;
+    /* transition-property: display; */
 }
 
 .search-container {
