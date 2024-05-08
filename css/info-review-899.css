@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@200;600&display=swap');
+
+.info-container {
+    display:block;
+    margin-top: 15px;
+}
+
+.info-container * {
+    color: white;
+    scrollbar-color: white black;
+    scrollbar-width: thin;
+}
+
+.info-container * > button {
+    background-color: black;
+    border-radius: 5px;
+    border: 1px solid white;
+}
+
+/* .info-left {
+    display: grid;
+    grid-template-areas: 
+    "a"
+    "b";
+} */
+
+.info-left > button {
+    /* grid-area: a; */
+    /* display: inline-block; */
+    width: fit-content;
+    margin-top: 10px;
+}
+
+.info-left > button:hover {
+    background-color: gray;
+    color: black;
+}
+
+.info-left > img {
+    /* grid-area: b; */
+    position:absolute;
+    opacity: 12%;
+    z-index: -10;
+    left:0%;
+    /* display: block; */
+
+    width: 100vw;
+}
+
+.info-right {
+    display: block;
+}
+
+.info-right .info-rt * > button {
+    margin-right: 5px;
+}
+
+.info-right .info-rb {
+    overflow-x: scroll;
+    height:fit-content;
+}
+
+.info-rb .info-rb-grid {
+    display: grid;
+    grid-auto-columns: fit-content;
+    grid-auto-flow: column;
+}
+
+.info-rb-grid > div {
+    display: inline;
+    float:left;
+    width: fit-content;
+    margin-right: 5px;
+    /* overflow: hidden; */
+}
+
+.info-rb-grid * > img {
+    border-radius: 10px;
+}
+
+/* ------------Review------------ */
+
+.review-container {
+    /* margin-top: 10px; */
+    color: white;
+}
+
+.review-container * {
+    scrollbar-width: thin;
+    scrollbar-color: white black;
+}
+
+.review-page {
+    overflow-y: scroll;
+    height: 30vh;
+}
+
+.review-box {
+    border-radius: 10px;
+    border: 1px solid white;
+    margin-top: 8px;
+}
+
+.review-box * {
+    padding-left: 10px;
+}
+
+/* .review-box-footer {
+    
+} */
+
+.review-box-footer > button {
+    display: inline;
+    background-color: black;
+    color:white;
+    padding: 1px 3px 0px 3px;
+}
+
+.review-writer > button {
+    margin-left: 3px;
+    border-radius: 5px;
+    border: 1px solid white;
+}
+
+
