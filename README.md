@@ -12,10 +12,10 @@
 ![wireframe_pj3](https://github.com/donkim1212/nbc_ch2_tmdb/assets/32076275/c327aa6f-d450-4e76-81a2-d18164ebbc62)
 
 ## 구현한 것
-TMDB 추가 API 호출: 영화 상세 정보를 담은 Detail, 영화의 Cast와 감독 정보를 담고있는 Credit 등의 추가 API를 호출하고 받아온 정보를 sessionStorage에 보관합니다.
-영화 상세 페이지: 영화 카드를 클릭하면 sessionStorage에 캐시된 TMDB의 영화 Detail과 Credit 정보를 받아서 형식에 맞춰 화면에 출력합니다.
-리뷰 작성: 영화 상세 페이지 하단에 리뷰를 작성하여 localStorage에 저장하고, 수정 및 삭제할 수 있는 기능을 추가합니다.
-영화 카드 정렬: 별점 높은 순, 낮은 순, 이름 순 등의 criteria로 검색된 카드를 정렬할 수 있는 기능입니다.
+ - TMDB 추가 API 호출: 영화 상세 정보를 담은 Detail, 영화의 Cast와 감독 정보를 담고있는 Credit 등의 추가 API를 호출하고 받아온 정보를 sessionStorage에 보관합니다.
+ - 영화 상세 페이지: 영화 카드를 클릭하면 sessionStorage에 캐시된 TMDB의 영화 Detail과 Credit 정보를 받아서 형식에 맞춰 화면에 출력합니다.
+ - 리뷰 작성: 영화 상세 페이지 하단에 리뷰를 작성하여 localStorage에 저장하고, 수정 및 삭제할 수 있는 기능을 추가합니다.
+ - 영화 카드 정렬: 별점 높은 순, 낮은 순, 이름 순 등의 criteria로 검색된 카드를 정렬할 수 있는 기능입니다.
 
 ## 문제점 // 해결 방안
 
