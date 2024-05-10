@@ -3,9 +3,7 @@
 
 ![preview](https://github.com/donkim1212/nbc_ch2_tmdb/assets/32076275/26104eea-3e08-4b56-8163-84c726c4d1dc)
 ## 개요
-순수 Javascript와 HTML만을 사용하여 검색 바를 구현하고, 검색한 영화를
-오픈 API인 TMDB(The Movie DB)에서 찾아내고 정보를 받아 임의의 형식으로
-출력하는 기능을 구현합니다.
+개인 과제 Repository를 기반으로 팀원들과 협업하여 영화 상세 페이지 및 리뷰 작성 등 여러가지 기능들을 추가합니다.
 
 과제 spec:
 [https://teamsparta.notion.site/JavaScript-8a862ce7b0e84867b610f83405014115](https://teamsparta.notion.site/JavaScript-b88e8bd5676b4fa9a93163e4cd428d33)
@@ -14,12 +12,16 @@
 ![wireframe_pj3](https://github.com/donkim1212/nbc_ch2_tmdb/assets/32076275/c327aa6f-d450-4e76-81a2-d18164ebbc62)
 
 ## 구현한 것
+ - TMDB 추가 API 호출: 영화 상세 정보를 담은 Detail, 영화의 Cast와 감독 정보를 담고있는 Credit 등의 추가 API를 호출하고 받아온 정보를 sessionStorage에 보관합니다.
+ - 영화 상세 페이지: 영화 카드를 클릭하면 sessionStorage에 캐시된 TMDB의 영화 Detail과 Credit 정보를 받아서 형식에 맞춰 화면에 출력합니다.
+ - 리뷰 작성: 영화 상세 페이지 하단에 리뷰를 작성하여 localStorage에 저장하고, 수정 및 삭제할 수 있는 기능을 추가합니다.
+ - 영화 카드 정렬: 별점 높은 순, 낮은 순, 이름 순 등의 criteria로 검색된 카드를 정렬할 수 있는 기능입니다.
 
 ## 문제점 // 해결 방안
 
 
 
-
+-------------------------------------------------------------
 -------------------------------------------------------------
 
 

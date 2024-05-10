@@ -1,9 +1,19 @@
+:root {
+    --scroll-width: 25px;
+    --full-width: calc(100vw - var(--scroll-width));
+    --half-width: calc(50vw - var(--scroll-width));
+    scrollbar-width: thin;
+}
+
 body {
     background-color: black;
 }
 
 .banner-container {
-    width: 100%;
+    position:relative;
+    left:50%;
+    transform: translate(-50%, 0);
+    width: var(--full-width);
     height: 200px;
     background-color: black;
     color:white;
@@ -28,7 +38,7 @@ body {
 
 .card-container {
     background-color: transparent;
-    width: 100vw;
+    width: var(--full-width);
     height: fit-content;
     overflow-y: hidden;
 
@@ -63,7 +73,7 @@ body {
 
 .search-bar-container {
     display: inline-block;
-    width: 100%;
+    width: var(--full-width);
     
     /* width: fit-content; */
 }
