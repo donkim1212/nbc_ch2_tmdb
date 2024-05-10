@@ -1,7 +1,7 @@
 .info-container {
     position: relative;
-    width: 50vw;
-    left: 50vw;
+    width: var(--half-width);
+    left: var(--half-width);
     transform: translate(-50%, 0);
     
     padding: 10px 10px 10px 10px;
@@ -127,7 +127,5 @@
 }
 
 .info-rb-grid * > img {
-    width: 10vw;
-    max-width: 154px;
-    min-width: 100px;
+    width: clamp(100px, 10vw, 154px);
 }
